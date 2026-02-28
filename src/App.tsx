@@ -107,7 +107,7 @@ function Wallpaper({ hackerMode }) {
 
       {/* ── Dark Apple-brick wallpaper (hacker mode) ── */}
       <img
-        src="/mac-dark.jpg"
+        src="mac-dark.jpg"
         alt="hacker wallpaper"
         style={{
           position: "fixed", inset: 0, width: "100%", height: "100%",
@@ -424,18 +424,19 @@ function AboutApp({ hackerMode }) {
   ];
 
   return (
-    <div style={{ padding: 32, color: "#e0e0e0", fontFamily: "'JetBrains Mono', monospace", overflowY: "auto", height: "100%" }}>
-      <div style={{ display: "flex", gap: 28, alignItems: "flex-start", flexWrap: "wrap" }}>
+    <div style={{ padding: 18, color: "#e0e0e0", fontFamily: "'JetBrains Mono', monospace", overflowY: "auto", height: "100%" }}>
+      <div style={{ display: "flex", gap: 16, alignItems: "flex-start", flexWrap: "wrap" }}>
         <div style={{ flexShrink: 0 }}>
           <div style={{
-            width: 110, height: 110, borderRadius: "50%",
+            width: 80, height: 80, borderRadius: "50%",
             background: `linear-gradient(135deg, ${accent}44, #bf00ff44)`,
-            border: `2px solid ${accent}`, boxShadow: `0 0 30px ${accent}55`,
-            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 48,
+            border: `2px solid ${accent}`, boxShadow: `0 0 20px ${accent}55`,
+            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36,
+            flexShrink: 0,
           }}>🧑‍💻</div>
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ fontSize: 28, fontWeight: 700, fontFamily: "Orbitron, monospace", color: accent, letterSpacing: 2 }}>
+          <div style={{ fontSize: 18, fontWeight: 700, fontFamily: "Orbitron, monospace", color: accent, letterSpacing: 1, wordBreak: "break-word" }}>
             Harsh Kumar Verma
           </div>
           <div style={{ marginTop: 6, color: "#bf00ff", fontSize: 13, letterSpacing: 3, textTransform: "uppercase" }}>
@@ -448,7 +449,7 @@ function AboutApp({ hackerMode }) {
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginTop: 28 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10, marginTop: 20 }}>
         {stats.map(s => (
           <div key={s.label} style={{
             background: "rgba(255,255,255,0.04)", border: `1px solid ${accent}33`,
@@ -462,7 +463,7 @@ function AboutApp({ hackerMode }) {
         ))}
       </div>
 
-      <div style={{ marginTop: 24, background: "rgba(0,255,247,0.04)", borderRadius: 10, padding: 20, border: `1px solid ${accent}22` }}>
+      <div style={{ marginTop: 14, background: "rgba(0,255,247,0.04)", borderRadius: 10, padding: 14, border: `1px solid ${accent}22` }}>
         <div style={{ color: accent, fontSize: 11, textTransform: "uppercase", letterSpacing: 3, marginBottom: 12 }}>// sys.profile</div>
         <p style={{ color: "#bbb", lineHeight: 1.9, fontSize: 13 }}>
           AI Security Engineer specializing in Graph Neural Networks, firmware analysis, and defence-grade cybersecurity systems.
@@ -474,9 +475,9 @@ function AboutApp({ hackerMode }) {
 
       <div style={{ marginTop: 20 }}>
         <div style={{ color: accent, fontSize: 11, textTransform: "uppercase", letterSpacing: 3, marginBottom: 14 }}>// tech.stack</div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 8 }}>
           {techStack.map(tc => (
-            <div key={tc.cat} style={{ background: `${tc.color}08`, border: `1px solid ${tc.color}33`, borderRadius: 8, padding: "12px 16px" }}>
+            <div key={tc.cat} style={{ background: `${tc.color}08`, border: `1px solid ${tc.color}33`, borderRadius: 8, padding: "10px 12px" }}>
               <div style={{ fontSize: 11, color: tc.color, fontWeight: 700, letterSpacing: 2, marginBottom: 8, textTransform: "uppercase" }}>{tc.cat}</div>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {tc.items.map(item => (
@@ -541,9 +542,9 @@ function TerminalApp({ hackerMode, onOpenApp }) {
 
   return (
     <div onClick={() => inputRef.current?.focus()} style={{
-      padding: 20, height: "100%", background: "rgba(0,0,0,0.6)", color: accent,
-      fontFamily: "'JetBrains Mono', monospace", fontSize: 13, lineHeight: 1.7,
-      overflowY: "auto", cursor: "text",
+      padding: 16, height: "100%", background: "rgba(0,0,0,0.6)", color: accent,
+      fontFamily: "'JetBrains Mono', monospace", fontSize: 12, lineHeight: 1.7,
+      overflowY: "auto", cursor: "text", wordBreak: "break-word", overflowX: "hidden",
     }}>
       {history.map((h, i) => (
         <div key={i}>
@@ -782,19 +783,19 @@ function ProjectsApp({ hackerMode }) {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace" }}>
       {/* Section filter tabs */}
-      <div style={{ padding: "10px 16px", borderBottom: "1px solid #ffffff11", display: "flex", gap: 8, flexShrink: 0, flexWrap: "wrap" }}>
+      <div style={{ padding: "8px 12px", borderBottom: "1px solid #ffffff11", display: "flex", gap: 6, flexShrink: 0, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {["All", ...sections.map(s => s.id)].map((id) => {
           const sec = sections.find(s => s.id === id);
           const color = sec ? sec.color : accent;
           const label = sec ? sec.label : "All";
           return (
             <button key={id} onClick={() => { setActiveSection(id); setExpanded(null); }} style={{
-              padding: "4px 14px", borderRadius: 20, fontSize: 11, cursor: "pointer", border: "1px solid",
+              padding: "4px 10px", borderRadius: 20, fontSize: 10, cursor: "pointer", border: "1px solid",
               borderColor: activeSection === id ? color : "#ffffff22",
               background: activeSection === id ? `${color}22` : "transparent",
               color: activeSection === id ? color : "#888",
-              fontFamily: "inherit",
-            }}>{id === "All" ? "🗂 All (15)" : label}</button>
+              fontFamily: "inherit", whiteSpace: "nowrap", flexShrink: 0,
+            }}>{id === "All" ? "🗂 All" : label}</button>
           );
         })}
       </div>
@@ -812,7 +813,7 @@ function ProjectsApp({ hackerMode }) {
                 <span style={{ fontSize: 10, color: "#555" }}>{section.projects.length} projects</span>
               </div>
             )}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
               {section.projects.map((p, idx) => {
                 const key = `${section.id}-${idx}`;
                 const isExpanded = expanded === key;
@@ -855,7 +856,7 @@ function ProjectsApp({ hackerMode }) {
                     </div>
 
                     {isExpanded && (
-                      <div style={{ marginTop: 16, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                      <div style={{ marginTop: 12, display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
                         <div style={{ background: `${p.color}08`, borderRadius: 8, padding: 14, border: `1px solid ${p.color}22` }}>
                           <div style={{ fontSize: 10, color: p.color, textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>Key Features</div>
                           {p.features.map(f => (
@@ -1113,18 +1114,18 @@ class ScalableHostingArchitecture:
     <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace", color: "#d4d4d4" }}>
 
       {/* ── Top tab bar ── */}
-      <div style={{ display: "flex", borderBottom: "1px solid #ffffff11", background: "rgba(0,0,0,0.4)", flexShrink: 0 }}>
+      <div style={{ display: "flex", borderBottom: "1px solid #ffffff11", background: "rgba(0,0,0,0.4)", flexShrink: 0, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {internships.map((int, i) => (
           <button key={int.id} onClick={() => setActiveIdx(i)} style={{
-            padding: "10px 18px", border: "none", borderBottom: activeIdx === i ? `2px solid ${int.orgColor}` : "2px solid transparent",
+            padding: "10px 14px", border: "none", borderBottom: activeIdx === i ? `2px solid ${int.orgColor}` : "2px solid transparent",
             background: activeIdx === i ? "rgba(255,255,255,0.06)" : "transparent",
             color: activeIdx === i ? "#fff" : "#666", cursor: "pointer",
-            fontFamily: "inherit", fontSize: 12, display: "flex", gap: 7, alignItems: "center",
-            transition: "all 0.2s",
+            fontFamily: "inherit", fontSize: 11, display: "flex", gap: 5, alignItems: "center",
+            transition: "all 0.2s", whiteSpace: "nowrap", flexShrink: 0,
           }}>
             <span>{int.icon}</span>
             <span>{int.label}</span>
-            <span style={{ fontSize: 9, padding: "1px 6px", borderRadius: 8, background: `${int.tagColor}22`, color: int.tagColor, border: `1px solid ${int.tagColor}44` }}>{int.tag}</span>
+            <span style={{ fontSize: 9, padding: "1px 5px", borderRadius: 8, background: `${int.tagColor}22`, color: int.tagColor, border: `1px solid ${int.tagColor}44` }}>{int.tag}</span>
           </button>
         ))}
       </div>
@@ -1133,7 +1134,7 @@ class ScalableHostingArchitecture:
       <div style={{ flex: 1, display: "flex", minHeight: 0 }}>
 
         {/* Left info panel */}
-        <div style={{ width: 260, background: "rgba(0,0,0,0.45)", borderRight: "1px solid #ffffff0d", overflowY: "auto", padding: 20, flexShrink: 0 }}>
+        <div style={{ width: "min(240px, 42vw)", background: "rgba(0,0,0,0.45)", borderRight: "1px solid #ffffff0d", overflowY: "auto", padding: 14, flexShrink: 0 }}>
 
           {/* Org badge */}
           <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 16 }}>
@@ -1184,10 +1185,10 @@ class ScalableHostingArchitecture:
 
         {/* Right: code viewer */}
         <div style={{ flex: 1, overflow: "auto", display: "flex", flexDirection: "column" }}>
-          <div style={{ padding: "6px 20px", background: "rgba(0,0,0,0.3)", borderBottom: "1px solid #ffffff0d", fontSize: 11, color: "#888", flexShrink: 0 }}>
+          <div style={{ padding: "6px 12px", background: "rgba(0,0,0,0.3)", borderBottom: "1px solid #ffffff0d", fontSize: 10, color: "#888", flexShrink: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
             <span style={{ color: intern.orgColor }}>● </span>{intern.file}
           </div>
-          <pre style={{ flex: 1, padding: 20, margin: 0, whiteSpace: "pre-wrap", lineHeight: 1.85, fontSize: 12, overflowY: "auto" }}>
+          <pre style={{ flex: 1, padding: 14, margin: 0, whiteSpace: "pre-wrap", lineHeight: 1.7, fontSize: 11, overflowY: "auto", overflowX: "hidden", wordBreak: "break-word" }}>
             {intern.code.split("\n").map((line, i) => {
               let color = "#d4d4d4";
               if (line.trim().startsWith("#")) color = "#6a9955";
@@ -1199,7 +1200,7 @@ class ScalableHostingArchitecture:
               else if (/^\s*(Role|Company|Period|Platform|Duration)\s*:/.test(line)) color = "#9cdcfe";
               return (
                 <div key={i} style={{ display: "flex" }}>
-                  <span style={{ color: "#3a3a4a", marginRight: 16, width: 28, textAlign: "right", flexShrink: 0, userSelect: "none", fontSize: 11 }}>{i + 1}</span>
+                  <span style={{ color: "#3a3a4a", marginRight: 8, width: 20, textAlign: "right", flexShrink: 0, userSelect: "none", fontSize: 10 }}>{i + 1}</span>
                   <span style={{ color }}>{line}</span>
                 </div>
               );
@@ -1397,8 +1398,8 @@ function SIHPhotoStrip({ accent }) {
       {/* Horizontal scrolling strip */}
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(5, 1fr)",
-        gap: 10,
+        gridTemplateColumns: "repeat(3, 1fr)",
+        gap: 8,
       }}>
         {photos.map((p, i) => (
           <div
@@ -1539,18 +1540,18 @@ function SIHApp({ hackerMode }) {
   ];
 
   return (
-    <div style={{ padding: 28, color: "#e0e0e0", fontFamily: "'JetBrains Mono', monospace", overflowY: "auto", height: "100%" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+    <div style={{ padding: 16, color: "#e0e0e0", fontFamily: "'JetBrains Mono', monospace", overflowY: "auto", height: "100%" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 8, marginBottom: 14 }}>
         <div>
-          <div style={{ fontSize: 18, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2 }}>AI-DRIVEN GNN MALWARE ANALYZER</div>
-          <div style={{ fontSize: 11, color: "#888", marginTop: 4, letterSpacing: 2 }}>FIRMWARE & MALWARE GRAPH ANALYSIS USING GNN · SIH 2025</div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 1, wordBreak: "break-word" }}>AI-DRIVEN GNN MALWARE ANALYZER</div>
+          <div style={{ fontSize: 10, color: "#888", marginTop: 4, letterSpacing: 1 }}>FIRMWARE & MALWARE GRAPH ANALYSIS · SIH 2025</div>
         </div>
         <div style={{ display: "flex", gap: 8 }}>
           <div style={{ padding: "4px 12px", borderRadius: 20, background: "#39ff1422", border: "1px solid #39ff14", color: "#39ff14", fontSize: 11 }}>SIH 2025 FINALIST</div>
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10, marginBottom: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 8, marginBottom: 16 }}>
         {stats.map(s => (
           <div key={s.label} style={{ background: `${accent}0a`, border: `1px solid ${accent}33`, borderRadius: 8, padding: "10px 14px", textAlign: "center" }}>
             <div style={{ fontSize: 18 }}>{s.icon}</div>
@@ -1570,7 +1571,7 @@ function SIHApp({ hackerMode }) {
         </div>
       </div>
 
-      <div style={{ background: "rgba(0,0,0,0.7)", border: `1px solid ${accent}33`, borderRadius: 8, padding: 16, height: 200, overflowY: "auto", fontSize: 11, marginBottom: 16 }}>
+      <div style={{ background: "rgba(0,0,0,0.7)", border: `1px solid ${accent}33`, borderRadius: 8, padding: 12, height: 150, overflowY: "auto", fontSize: 10, marginBottom: 12 }}>
         {logs.map((l, i) => (
           <div key={i} style={{
             color: (typeof l === "string" && l.includes("ALERT")) ? "#ff4444"
@@ -1585,16 +1586,18 @@ function SIHApp({ hackerMode }) {
         <div style={{ display: "inline-block", width: 8, height: 12, background: accent, animation: "blink 1s infinite", verticalAlign: "middle" }} />
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 12, marginBottom: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 8, marginBottom: 16 }}>
         {[
           ["Binary → Graph", "⟨/⟩", "CFG, Call Graph, Dependency Graph extraction from firmware"],
           ["GIN + GraphSAGE", "◉", "Hybrid GNN for local pattern + neighborhood aggregation"],
           ["Zero-Day Detection", "⚠", "Detects unknown malware via structural pattern matching"],
         ].map(([label, icon, desc]) => (
-          <div key={label} style={{ background: `${accent}08`, border: `1px solid ${accent}33`, borderRadius: 8, padding: 14, textAlign: "center" }}>
-            <div style={{ fontSize: 22 }}>{icon}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: accent, margin: "6px 0 4px" }}>{label}</div>
-            <div style={{ fontSize: 10, color: "#666", lineHeight: 1.5 }}>{desc}</div>
+          <div key={label} style={{ background: `${accent}08`, border: `1px solid ${accent}33`, borderRadius: 8, padding: "10px 14px", display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ fontSize: 20, flexShrink: 0 }}>{icon}</div>
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 700, color: accent, marginBottom: 2 }}>{label}</div>
+              <div style={{ fontSize: 10, color: "#666", lineHeight: 1.5 }}>{desc}</div>
+            </div>
           </div>
         ))}
       </div>
@@ -1653,29 +1656,29 @@ function BlockchainApp({ hackerMode }) {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace" }}>
       {/* Header */}
-      <div style={{ padding: "14px 24px", borderBottom: "1px solid #ffffff11", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
-        <div style={{ fontSize: 16, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2 }}>⬡ WEB3 & BLOCKCHAIN</div>
-        <div style={{ display: "flex", gap: 8 }}>
+      <div style={{ padding: "12px 16px", borderBottom: "1px solid #ffffff11", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexShrink: 0, gap: 8, flexWrap: "wrap" }}>
+        <div style={{ fontSize: 14, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 1, whiteSpace: "nowrap" }}>⬡ WEB3 & BLOCKCHAIN</div>
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
           {projects.map((proj, i) => (
             <button key={i} onClick={() => setActive(i)} style={{
-              padding: "4px 14px", borderRadius: 20, fontSize: 11, cursor: "pointer", border: "1px solid",
+              padding: "5px 12px", borderRadius: 20, fontSize: 11, cursor: "pointer", border: "1px solid",
               borderColor: active === i ? proj.color : "#ffffff22",
               background: active === i ? `${proj.color}22` : "transparent",
               color: active === i ? proj.color : "#666",
-              fontFamily: "inherit",
+              fontFamily: "inherit", whiteSpace: "nowrap",
             }}>{proj.icon} {proj.title}</button>
           ))}
         </div>
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, overflow: "auto", padding: 24 }}>
-        <div style={{ display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 20 }}>
-          <div style={{ fontSize: 48 }}>{p.icon}</div>
-          <div>
-            <div style={{ fontSize: 20, fontWeight: 700, color: p.color, fontFamily: "Orbitron, monospace" }}>{p.title}</div>
-            <div style={{ fontSize: 12, color: "#888", marginTop: 4 }}>{p.subtitle}</div>
-            <div style={{ display: "flex", gap: 6, marginTop: 10, flexWrap: "wrap" }}>
+      <div style={{ flex: 1, overflow: "auto", padding: 14 }}>
+        <div style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 16, flexWrap: "wrap" }}>
+          <div style={{ fontSize: 40 }}>{p.icon}</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 16, fontWeight: 700, color: p.color, fontFamily: "Orbitron, monospace", wordBreak: "break-word" }}>{p.title}</div>
+            <div style={{ fontSize: 11, color: "#888", marginTop: 4 }}>{p.subtitle}</div>
+            <div style={{ display: "flex", gap: 5, marginTop: 8, flexWrap: "wrap" }}>
               {p.tech.map(t => (
                 <span key={t} style={{ fontSize: 10, padding: "2px 8px", borderRadius: 20, background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}33` }}>{t}</span>
               ))}
@@ -1683,13 +1686,13 @@ function BlockchainApp({ hackerMode }) {
           </div>
         </div>
 
-        <div style={{ background: `${p.color}08`, border: `1px solid ${p.color}22`, borderRadius: 10, padding: 18, marginBottom: 16 }}>
+        <div style={{ background: `${p.color}08`, border: `1px solid ${p.color}22`, borderRadius: 10, padding: 14, marginBottom: 12 }}>
           <div style={{ fontSize: 11, color: p.color, textTransform: "uppercase", letterSpacing: 2, marginBottom: 8 }}>// overview</div>
-          <p style={{ fontSize: 13, color: "#bbb", lineHeight: 1.8, margin: 0 }}>{p.desc}</p>
+          <p style={{ fontSize: 12, color: "#bbb", lineHeight: 1.7, margin: 0 }}>{p.desc}</p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
-          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid #ffffff0a", borderRadius: 10, padding: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
+          <div style={{ background: "rgba(255,255,255,0.03)", border: "1px solid #ffffff0a", borderRadius: 10, padding: 12 }}>
             <div style={{ fontSize: 11, color: p.color, textTransform: "uppercase", letterSpacing: 2, marginBottom: 10 }}>// how it works</div>
             {p.features.map((f, i) => (
               <div key={i} style={{ display: "flex", gap: 8, marginBottom: 8 }}>
@@ -1954,7 +1957,7 @@ function GalleryApp({ hackerMode }) {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace", position: "relative" }}>
       {/* Breadcrumb */}
-      <div style={{ padding: "9px 18px", borderBottom: "1px solid #ffffff11", display: "flex", alignItems: "center", gap: 6, flexShrink: 0, background: "rgba(0,0,0,0.25)" }}>
+      <div style={{ padding: "8px 12px", borderBottom: "1px solid #ffffff11", display: "flex", alignItems: "center", gap: 6, flexShrink: 0, background: "rgba(0,0,0,0.25)" }}>
         <span onClick={folder ? closeFolder : undefined} style={{ fontSize: 12, letterSpacing: 1, color: folder ? folder.color : "#fff", cursor: folder ? "pointer" : "default", fontWeight: folder ? 400 : 700, textDecoration: folder ? "underline" : "none", textUnderlineOffset: 3 }}>Gallery</span>
         {folder && <><span style={{ color: "#2a2a2a", fontSize: 13 }}>›</span><span style={{ fontSize: 12, letterSpacing: 1, color: "#fff", fontWeight: 700 }}>{folder.label}</span></>}
         <span style={{ marginLeft: "auto", fontSize: 10, color: "#333", letterSpacing: 1 }}>
@@ -1974,7 +1977,7 @@ function GalleryApp({ hackerMode }) {
                   onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = `0 0 26px ${f.color}44`; }}
                   onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}
                 >
-                  <div style={{ height: 110, position: "relative", background: `linear-gradient(135deg, ${f.color}33, ${f.color}55)`, overflow: "hidden" }}>
+                  <div style={{ height: 90, position: "relative", background: `linear-gradient(135deg, ${f.color}33, ${f.color}55)`, overflow: "hidden" }}>
                     {cover ? <img src={cover} alt={f.label} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onError={e => e.currentTarget.style.display = "none"} />
                             : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 50 }}>{f.emoji}</div>}
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(transparent 35%, rgba(0,0,0,0.72))" }} />
@@ -1996,14 +1999,14 @@ function GalleryApp({ hackerMode }) {
         {/* Album view */}
         {folder && (
           <>
-            <div style={{ background: `${folder.color}0d`, border: `1px solid ${folder.color}33`, borderRadius: 11, padding: "13px 17px", marginBottom: 18, display: "flex", gap: 13, alignItems: "center" }}>
-              <span style={{ fontSize: 32 }}>{folder.emoji}</span>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: folder.color, fontFamily: "Orbitron, monospace" }}>{folder.label}</div>
-                <div style={{ fontSize: 10, color: "#555", marginTop: 3 }}>{folder.desc} · {filled(folder)} / {folder.photos.length} photos added</div>
+            <div style={{ background: `${folder.color}0d`, border: `1px solid ${folder.color}33`, borderRadius: 11, padding: "10px 12px", marginBottom: 14, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+              <span style={{ fontSize: 26 }}>{folder.emoji}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 13, fontWeight: 700, color: folder.color, fontFamily: "Orbitron, monospace", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{folder.label}</div>
+                <div style={{ fontSize: 9, color: "#555", marginTop: 2 }}>{filled(folder)}/{folder.photos.length} photos</div>
               </div>
-              {folder.badge && <span style={{ fontSize: 10, padding: "3px 11px", borderRadius: 11, background: "#39ff1422", color: "#39ff14", border: "1px solid #39ff1444" }}>{folder.badge}</span>}
-              <button onClick={closeFolder} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid #ffffff15", borderRadius: 7, padding: "4px 11px", cursor: "pointer", color: "#666", fontFamily: "inherit", fontSize: 11 }}>← Back</button>
+              {folder.badge && <span style={{ fontSize: 9, padding: "2px 8px", borderRadius: 10, background: "#39ff1422", color: "#39ff14", border: "1px solid #39ff1444" }}>{folder.badge}</span>}
+              <button onClick={closeFolder} style={{ background: "rgba(255,255,255,0.05)", border: "1px solid #ffffff15", borderRadius: 7, padding: "5px 10px", cursor: "pointer", color: "#888", fontFamily: "inherit", fontSize: 11, WebkitTapHighlightColor: "transparent" }}>← Back</button>
             </div>
             {filled(folder) === 0 && (
               <div style={{ background: "rgba(255,255,255,0.015)", border: "1px dashed #ffffff0d", borderRadius: 9, padding: "16px 20px", marginBottom: 16, fontSize: 11, color: "#333", lineHeight: 1.8 }}>
@@ -2050,18 +2053,19 @@ function CertsApp({ hackerMode }) {
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace" }}>
-      <div style={{ padding: "12px 20px", borderBottom: "1px solid #ffffff11", display: "flex", gap: 8, flexShrink: 0 }}>
+      <div style={{ padding: "10px 12px", borderBottom: "1px solid #ffffff11", display: "flex", gap: 6, flexShrink: 0, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {cats.map(c => (
           <button key={c} onClick={() => setFilter(c)} style={{
-            padding: "4px 12px", borderRadius: 20, fontSize: 11, cursor: "pointer", border: "1px solid",
+            padding: "4px 10px", borderRadius: 20, fontSize: 10, cursor: "pointer", border: "1px solid",
             borderColor: filter === c ? accent : "#ffffff22",
             background: filter === c ? `${accent}22` : "transparent",
             color: filter === c ? accent : "#888", fontFamily: "inherit",
+            whiteSpace: "nowrap", flexShrink: 0,
           }}>{c}</button>
         ))}
       </div>
       <div style={{ flex: 1, overflow: "auto", padding: 20 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
           {filtered.map((c, i) => (
             <div key={i}
               onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
@@ -2126,10 +2130,10 @@ function ContactApp({ hackerMode }) {
   ];
 
   return (
-    <div style={{ padding: 28, fontFamily: "'JetBrains Mono', monospace", color: "#e0e0e0", overflowY: "auto", height: "100%" }}>
-      <div style={{ fontSize: 18, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2, marginBottom: 20 }}>ESTABLISH CONTACT</div>
+    <div style={{ padding: 16, fontFamily: "'JetBrains Mono', monospace", color: "#e0e0e0", overflowY: "auto", height: "100%" }}>
+      <div style={{ fontSize: 16, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2, marginBottom: 16 }}>ESTABLISH CONTACT</div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10, marginBottom: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 8, marginBottom: 16 }}>
         {contacts.map(c => (
           <a key={c.label} href={c.href} target={c.target} rel="noopener noreferrer"
             style={{
@@ -2183,8 +2187,8 @@ function ContactApp({ hackerMode }) {
 function SettingsApp({ hackerMode, setHackerMode, accentColor, setAccentColor }) {
   const accent = hackerMode ? "#39ff14" : "#00fff7";
   return (
-    <div style={{ padding: 28, fontFamily: "'JetBrains Mono', monospace", color: "#e0e0e0" }}>
-      <div style={{ fontSize: 16, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2, marginBottom: 24 }}>SYSTEM SETTINGS</div>
+    <div style={{ padding: 16, fontFamily: "'JetBrains Mono', monospace", color: "#e0e0e0", overflowY: "auto", height: "100%" }}>
+      <div style={{ fontSize: 15, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2, marginBottom: 18 }}>SYSTEM SETTINGS</div>
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 18px", background: "rgba(255,255,255,0.04)", borderRadius: 10, border: `1px solid ${accent}22` }}>
           <div>

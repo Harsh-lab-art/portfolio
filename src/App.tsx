@@ -94,7 +94,7 @@ function Wallpaper({ hackerMode }) {
     <>
       {/* ── Colorful macOS Big Sur wallpaper (default) ── */}
       <img
-        src="/macos-big-sur-apple-layers-fluidic-colorful-wwdc-stock-4096x2304-1455.jpg"
+        src="macos-big-sur.jpg"
         alt="wallpaper"
         style={{
           position: "fixed", inset: 0, width: "100%", height: "100%",
@@ -107,7 +107,7 @@ function Wallpaper({ hackerMode }) {
 
       {/* ── Dark Apple-brick wallpaper (hacker mode) ── */}
       <img
-        src="/mac-dark-doobxk88nn421e56.jpg"
+        src="/mac-dark.jpg"
         alt="hacker wallpaper"
         style={{
           position: "fixed", inset: 0, width: "100%", height: "100%",
@@ -1755,11 +1755,18 @@ const GALLERY_FOLDERS = [
     badge: "FINALIST",
     desc: "National Finalist · AI/ML Firmware Security",
     photos: [
-      mkSlot("s1", "/sih1.png", "⚔",  "Team Presentation", "Presenting to the judges at SIH 2025 grand finale.",       "#ff6b35"),
-      mkSlot("s2", "/sih2.png", "💻", "Hacking Session",   "48 hours of non-stop coding — building the GNN analyzer.", "#ff6b35"),
-      mkSlot("s3", "/sih3.png", "🏆", "Finalist Stage",    "Standing on the finalist stage at SIH 2025.",               "#ff6b35"),
-      mkSlot("s4", "/sih4.png", "🤝", "Team Photo",        "The team that made it to SIH 2025 nationals!",              "#ff6b35"),
-      mkSlot("s5", "/sih5.png", "🎯", "Problem Statement", "Working through the AI/ML firmware security problem.",       "#ff6b35"),
+      mkSlot("s1", "sih1.jpeg", "⚔",  "Team Presentation", "Presenting to the judges at SIH 2025 grand finale.",       "#ff6b35"),
+      mkSlot("s2", "sih2.jpeg", "💻", "Stage Presentation",   "My Team ByteMeX.", "#ff6b35"),
+      mkSlot("s3", "sih3.jpeg", "🏆", "Finalist Stage",    "Standing on the finalist stage at SIH 2025.",               "#ff6b35"),
+      mkSlot("s4", "sih4.jpeg", "🤝", "Judges",        "showing the production level work to judges",              "#ff6b35"),
+      mkSlot("s5", "sih5.jpeg", "🎯", "Problem Statement", "Working through the AI/ML firmware security problem.",       "#ff6b35"),
+      mkSlot("s6", "sih6.jpeg", "🔬", "IIM",          "IIM Lucknow campus", "#ff6b35"),
+      mkSlot("s7", "sih7.jpeg", "🎯", "Late Night", "Late night coding session at SIH 2025.", "#ff6b35" ),
+      mkSlot("s8", "sih8.jpeg", "🔬", "Team Photoss",          "Team photo at SIH 2025.", "#ff6b35" ),
+      mkSlot("s9", "sih9.jpeg", "🔬", "The Deep learning",          "Implementing deep learnng model", "#ff6b35" ),
+      mkSlot("s10", "sih10.jpeg", "🔬", "Getting Started",          "Buidling with enjoyment", "#ff6b35" ),
+      mkSlot("s11", "sih11.jpeg", "🔬", "Problem statement",          "Team working and understing the problem statement ", "#ff6b35" ),
+      mkSlot("s12", "sih12.jpeg", "🔬", "1st day",          "Arrival at the IIML EIC", "#ff6b35" ),
     ],
   },
   {
@@ -1770,11 +1777,14 @@ const GALLERY_FOLDERS = [
     badge: null,
     desc: "Adobe Hackfest · SunHack · National Wins",
     photos: [
-      mkSlot("h1", "/hackathon1.png", "🏆", "Adobe Hackfest", "Competing at Adobe Hackfest — design meets code.", "#ffd700"),
-      mkSlot("h2", "/hackathon2.png", "☀️", "SunHack",        "SunHack — 24-hour hackathon sprint.",               "#ffd700"),
-      mkSlot("h3", "/hackathon3.png", "💡", "Hackathon Win",  "Winning moment at a national-level hackathon.",     "#ffd700"),
-      mkSlot("h4", "/hackathon4.png", "⚡", "Team Hustle",    "Our team grinding through the night.",              "#ffd700"),
-      mkSlot("h5", "/hackathon5.png", "🎯", "Prize Ceremony", "Prize ceremony — all the hard work paid off!",      "#ffd700"),
+      mkSlot("h1", "hackathon8.jpeg", "🏆", "SunHack", "SunHack a 36 hours Hackathon.", "#ffd700"),
+      mkSlot("h2", "hackathon7.jpeg", "☀️", "SunHack",        "Explaining our project to mentors.",               "#ffd700"),
+      mkSlot("h3", "hackathon1.jpeg", "💡", "SunHack",  "International Hackathon at Nashik",     "#ffd700"),
+      mkSlot("h4", "hackathon2.jpeg", "⚡", "IntrusionX",    "A 24 hour hackathon on GLA University Mathura.",              "#ffd700"),
+      mkSlot("h5", "hackathon3.jpeg", "🎯", "IntrusionX", "Pictures with Judges",      "#ffd700"),
+      mkSlot("h6", "hackathon4.jpeg", "🏆", "IntrusionX", "The ID Card",      "#ffd700"),
+      mkSlot("h7", "hackathon5.jpeg", "💻", "IntrusionX", "The phishing attack Project", "#ffd700")  ,
+      mkSlot("h8", "hackathon6.jpeg", "🎉", "IntrusionX", "The complete cyber security project explanation to judges.", "#ffd700")    ,
     ],
   },
   {
@@ -1785,26 +1795,38 @@ const GALLERY_FOLDERS = [
     badge: null,
     desc: "YUKTI · Google · Microsoft · Conferences",
     photos: [
-      mkSlot("e1", "/event1.png", "🎤",  "YUKTI Innovation", "Presenting at YUKTI National Innovation Festival.",   "#00d4ff"),
-      mkSlot("e2", "/event2.png", "🔬",  "Google Dev Event", "Google developer event — future of AI.",              "#00d4ff"),
-      mkSlot("e3", "/event3.png", "🪟",  "Microsoft HKN",    "Microsoft Hackathon — Campaign Sentinel project.",    "#00d4ff"),
-      mkSlot("e4", "/event4.png", "🎙️", "Tech Conference",  "Speaking at a national tech conference.",             "#00d4ff"),
-      mkSlot("e5", "/event5.png", "🌐",  "Community Meetup", "Developer community meetup — networking & learning.", "#00d4ff"),
+      mkSlot("e1", "yukti1.jpeg", "🎤",  "YUKTI Innovation", "Presenting at YUKTI National Innovation Festival.",   "#00d4ff"),
+      mkSlot("e2", "yukti2.jpeg", "🔬",  "YUKTI Innovation", "The Certificate of Recognition",              "#00d4ff"),
+      mkSlot("e3", "yukti3.jpeg", "🪟",  "YUKTI Innovation", "Presenting at YUKTI Innovation Event",    "#00d4ff"),
+      mkSlot("e4", "bhopal.jpeg", "🎙️", "Vigyan Mela",  "Our project got shortlisted at Bhopal vigyan mela 2025",             "#00d4ff"),
+      mkSlot("e5", "coding.jpeg", "🌐",  "DSA ", "got 3rd prize in DSA competition in college", "#00d4ff"),
+      mkSlot("e6", "mini1.jpeg", "💻",  "Agriculural Minister", "Made a block chain project for the minister", "#00d4ff"),
+      mkSlot("e7", "mini2.jpeg", "🪟",  "Minister", "Meeting with the minister and selfie", "#00d4ff"),
+      mkSlot("e8", "micro1.jpeg", "🎉",  "Microsoft", "Prompt Engineering", "#00d4ff"),
+      mkSlot("e9", "micro2.jpeg", "🎉",  "Microsoft", "AI Agent with Azure", "#00d4ff"),
+      mkSlot("e10", "micro3.jpeg", "🎉",  "Microsoft", "introduction to LLM", "#00d4ff"),
+      mkSlot("e11", "micro4.jpeg", "🎉",  "Microsoft", "Integrating custom tools in the AI Agent", "#00d4ff"),
+      mkSlot("e12", "micro5.jpeg", "🎉",  "Microsoft", "Agent development on Azure", "#00d4ff"),
+      mkSlot("e13", "micro6.jpeg", "🎉",  "Microsoft", "Microsoft Student Ambassador", "#00d4ff"),
     ],
   },
   {
     id: "college",
-    label: "College",
+    label: "Hackathons Certificates",
     emoji: "🎓",
     color: "#bf00ff",
     badge: null,
     desc: "SIRT Bhopal · Campus Life · Study Mode",
     photos: [
-      mkSlot("c1", "/college1.png", "🏛️", "SIRT Campus",  "The campus that shaped everything — SIRT Bhopal.", "#bf00ff"),
-      mkSlot("c2", "/college2.png", "📚", "Study Mode",    "Deep-focus study sessions before exams.",          "#bf00ff"),
-      mkSlot("c3", "/college3.png", "🎓", "Campus Life",   "College life — the best chapter so far.",          "#bf00ff"),
-      mkSlot("c4", "/college4.png", "🤝", "Friends",       "The people who made college unforgettable.",       "#bf00ff"),
-      mkSlot("c5", "/college5.png", "🎉", "Celebration",   "Celebrating milestones with the squad.",           "#bf00ff"),
+      mkSlot("c1", "certi6.jpeg", "🏛️", "QubitX 2025",  "National Level hackathon at GL Bajaj, Mathura", "#bf00ff"),
+      mkSlot("c2", "certi2.jpeg", "📚", "MSME",    "My startup project and recognition",          "#bf00ff"),
+      mkSlot("c3", "certi7.jpeg", "🎓", "Samsung",   "The Samsung Galaxy AI tresure hunt",          "#bf00ff"),
+      mkSlot("c4", "certi4.jpeg", "🤝", "Loreal",       "Online aptitude test by Loreal",       "#bf00ff"),
+      mkSlot("c5", "certi5.jpeg", "🎉", "CodeSynthesis",   "At Guru Tegh Bahadur Engineering college, Delhi",           "#bf00ff"),
+      mkSlot("c6", "certi8.jpeg", "⚡", "HacKronyX",   "St. Vincent Pallotti college of Engineering and Technology , Nagpur", "#bf00ff"),
+      mkSlot("c7", "certi9.jpeg", "💻", "Paranox 2.0",  "A national level hackathon by TechNinjas",     "#bf00ff"),
+      mkSlot("c8", "certi10.jpeg", "🏆", "Quiz-A-Bit",  "A national Level hackathon By Biral Institute of Technology , Ranchi",     "#bf00ff"),
+      mkSlot("c9", "certi.jpeg", "🎯", "Dev!@thon",  "A national level hackathon by GLA University, Mathura",     "#bf00ff"),
     ],
   },
   {
@@ -1815,11 +1837,15 @@ const GALLERY_FOLDERS = [
     badge: null,
     desc: "Late nights · Coding sessions · Life",
     photos: [
-      mkSlot("p1", "/personal1.png", "🧑‍💻", "Late Night Coding", "2 AM, coffee, and a bug that refuses to die.",  "#ff2d78"),
-      mkSlot("p2", "/personal2.png", "☕",   "Coffee & Code",     "Fuel of choice: strong coffee, dark terminal.", "#ff2d78"),
-      mkSlot("p3", "/personal3.png", "🎮",   "Downtime",          "Even engineers need to recharge.",              "#ff2d78"),
-      mkSlot("p4", "/personal4.png", "🌅",   "Early Morning",     "Best ideas come at sunrise.",                   "#ff2d78"),
-      mkSlot("p5", "/personal5.png", "✈️",  "Travel",            "Exploring the world between deployments.",      "#ff2d78"),
+      mkSlot("p1", "mee.jpeg", "🧑‍💻", "Harsh Kumar Verma", "Love to create and build system Architectures",  "#ff2d78"),
+      mkSlot("p2", "interns1.jpeg", "☕",   "Government of India",     "My interns friends at govternment of India internship at Delhi.", "#ff2d78"),
+      mkSlot("p3", "interns2.jpeg", "🎮",   "The Team",          "The energetic team of interns.",              "#ff2d78"),
+      mkSlot("p4", "certi1.jpeg", "🌅",   "Hadoop",     "hands on experience in Hadoop",     "#ff2d78"),
+      mkSlot("p5", "certi3.jpeg", "✈️",  "MSME",            "Bootcamp of Data Analytics",      "#ff2d78"),
+      mkSlot("p6", "nptel.jpeg", "🎉",  "Data base management System",       "Celebrating the small wins in the coding journey.", "#ff2d78"),
+      mkSlot("p7", "adobe.jpeg", "🎉",  "Adobe",       "Adobe India Hackathon", "#ff2d78"),
+      mkSlot("p8", "intersnhip1.jpeg", "🎉",  "Deloitte",       "virtual Internship at Deloitte on coding an development", "#ff2d78"),
+      mkSlot("p9", "internship2.jpeg", "🎉",  "AWS",     "Internship at AWS ", "#ff2d78"),
     ],
   },
 ];
@@ -1832,7 +1858,7 @@ function GalleryThumb({ p, onClick }) {
     <div
       onClick={() => !empty && onClick()}
       style={{
-        aspectRatio: "1", borderRadius: 10, overflow: "hidden", position: "relative",
+        aspectRatio: "4/3", borderRadius: 10, overflow: "hidden", position: "relative",
         border: `1px solid ${empty ? "#ffffff0d" : p.color + "44"}`,
         background: empty ? "rgba(255,255,255,0.02)" : p.color + "0a",
         cursor: empty ? "default" : "pointer",
@@ -1898,9 +1924,9 @@ function GalleryLightbox({ photos, startIdx, onClose, accent }) {
     }}>
       <button onClick={onClose} style={{ position: "absolute", top: 12, right: 12, width: 32, height: 32, borderRadius: "50%", border: "1px solid #ffffff22", background: "rgba(255,255,255,0.08)", color: "#fff", fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
       <div style={{ position: "absolute", top: 14, left: "50%", transform: "translateX(-50%)", fontSize: 10, color: "#444", letterSpacing: 2, fontFamily: "'JetBrains Mono', monospace" }}>{idx + 1} / {viewable.length}</div>
-      {viewable.length > 1 && <button onClick={prev} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", width: 40, height: 40, borderRadius: "50%", border: `1px solid ${p.color}44`, background: "rgba(255,255,255,0.07)", color: p.color, fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>‹</button>}
-      <div onClick={e => e.stopPropagation()} style={{ textAlign: "center", maxWidth: "70vw", padding: "0 64px" }}>
-        <img key={p.img} src={p.img} alt={p.label} style={{ maxWidth: "100%", maxHeight: "65vh", objectFit: "contain", borderRadius: 12, border: `1px solid ${p.color}44`, boxShadow: `0 0 50px ${p.color}22` }} />
+      {viewable.length > 1 && <button onClick={prev} style={{ position: "absolute", left: 8, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: `1px solid ${p.color}55`, background: "rgba(0,0,0,0.55)", color: p.color, fontSize: 22, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 10 }}>‹</button>}
+      <div onClick={e => e.stopPropagation()} style={{ textAlign: "center", maxWidth: "min(92vw, 700px)", padding: "0 40px", width: "100%" }}>
+        <img key={p.img} src={p.img} alt={p.label} style={{ maxWidth: "100%", maxHeight: "58vh", objectFit: "contain", borderRadius: 12, border: `1px solid ${p.color}44`, boxShadow: `0 0 50px ${p.color}22` }} />
         <div style={{ marginTop: 14, fontSize: 15, color: p.color, fontFamily: "Orbitron, monospace" }}>{p.label}</div>
         {p.caption && <div style={{ marginTop: 7, fontSize: 11, color: "#666", fontFamily: "'JetBrains Mono', monospace", maxWidth: 460, margin: "8px auto 0" }}>{p.caption}</div>}
         {viewable.length > 1 && (
@@ -1909,7 +1935,7 @@ function GalleryLightbox({ photos, startIdx, onClose, accent }) {
           </div>
         )}
       </div>
-      {viewable.length > 1 && <button onClick={next} style={{ position: "absolute", right: 14, top: "50%", transform: "translateY(-50%)", width: 40, height: 40, borderRadius: "50%", border: `1px solid ${p.color}44`, background: "rgba(255,255,255,0.07)", color: p.color, fontSize: 20, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>›</button>}
+      {viewable.length > 1 && <button onClick={next} style={{ position: "absolute", right: 8, top: "50%", transform: "translateY(-50%)", width: 44, height: 44, borderRadius: "50%", border: `1px solid ${p.color}55`, background: "rgba(0,0,0,0.55)", color: p.color, fontSize: 22, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 10 }}>›</button>}
     </div>
   );
 }
@@ -1939,7 +1965,7 @@ function GalleryApp({ hackerMode }) {
       <div style={{ flex: 1, overflow: "auto", padding: 18 }}>
         {/* Folder grid */}
         {!folder && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 12 }}>
             {GALLERY_FOLDERS.map(f => {
               const cover = coverImg(f);
               const n = filled(f);
@@ -1948,7 +1974,7 @@ function GalleryApp({ hackerMode }) {
                   onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.03)"; e.currentTarget.style.boxShadow = `0 0 26px ${f.color}44`; }}
                   onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.boxShadow = "none"; }}
                 >
-                  <div style={{ height: 136, position: "relative", background: `linear-gradient(135deg, ${f.color}33, ${f.color}55)`, overflow: "hidden" }}>
+                  <div style={{ height: 110, position: "relative", background: `linear-gradient(135deg, ${f.color}33, ${f.color}55)`, overflow: "hidden" }}>
                     {cover ? <img src={cover} alt={f.label} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} onError={e => e.currentTarget.style.display = "none"} />
                             : <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 50 }}>{f.emoji}</div>}
                     <div style={{ position: "absolute", inset: 0, background: "linear-gradient(transparent 35%, rgba(0,0,0,0.72))" }} />
@@ -1985,7 +2011,7 @@ function GalleryApp({ hackerMode }) {
                 drop <span style={{ color: folder.color }}>{folder.id}1.png</span> … <span style={{ color: folder.color }}>{folder.id}5.png</span> into <span style={{ color: folder.color }}>/public</span> and they appear here automatically.
               </div>
             )}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 13 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 10 }}>
               {photos.map((p, i) => (
                 <GalleryThumb key={p.id} p={p} onClick={() => setLightboxIdx(i)} />
               ))}
@@ -2499,8 +2525,8 @@ function IPhoneStatusBar({ hackerMode, time }) {
   const accent = hackerMode ? "#39ff14" : "#fff";
   return (
     <div style={{
-      height: 50, display: "flex", alignItems: "center",
-      justifyContent: "space-between", padding: "0 24px 0 20px",
+      height: 44, display: "flex", alignItems: "center",
+      justifyContent: "space-between", padding: "0 18px 0 14px",
       flexShrink: 0, userSelect: "none",
     }}>
       {/* Time */}
@@ -2524,7 +2550,7 @@ function IPhoneStatusBar({ hackerMode, time }) {
 }
 
 // Full-screen app sheet (slides up like iOS)
-function IPhoneAppSheet({ appId, hackerMode, onClose, openApp }) {
+function IPhoneAppSheet({ appId, hackerMode, onClose, openApp, setHackerMode }) {
   const app = APPS[appId];
   const accent = app?.color || "#00fff7";
   const [visible, setVisible] = useState(false);
@@ -2552,7 +2578,7 @@ function IPhoneAppSheet({ appId, hackerMode, onClose, openApp }) {
       case "gallery":    return <GalleryApp {...props} />;
       case "certs":      return <CertsApp {...props} />;
       case "contact":    return <ContactApp {...props} />;
-      case "settings":   return <SettingsApp hackerMode={hackerMode} setHackerMode={() => {}} accentColor={accent} setAccentColor={() => {}} />;
+      case "settings":   return <SettingsApp hackerMode={hackerMode} setHackerMode={setHackerMode} accentColor={accent} setAccentColor={() => {}} />;
       default: return <div style={{ padding: 24, color: "#fff" }}>App not found</div>;
     }
   };
@@ -2574,11 +2600,15 @@ function IPhoneAppSheet({ appId, hackerMode, onClose, openApp }) {
         background: "rgba(0,0,0,0.4)", backdropFilter: "blur(20px)",
         flexShrink: 0,
       }}>
-        <button onClick={handleClose} style={{
-          background: "none", border: "none", color: accent,
-          fontSize: 14, cursor: "pointer", fontFamily: "'JetBrains Mono', monospace",
-          display: "flex", alignItems: "center", gap: 4, padding: 0,
-        }}>
+        <button
+          onClick={handleClose}
+          onTouchEnd={e => { e.preventDefault(); handleClose(); }}
+          style={{
+            background: "none", border: "none", color: accent,
+            fontSize: 16, cursor: "pointer", fontFamily: "'JetBrains Mono', monospace",
+            display: "flex", alignItems: "center", gap: 4, padding: "8px 4px",
+            WebkitTapHighlightColor: "transparent", minWidth: 60,
+          }}>
           ‹ Back
         </button>
         <span style={{
@@ -2590,7 +2620,7 @@ function IPhoneAppSheet({ appId, hackerMode, onClose, openApp }) {
       </div>
 
       {/* Content */}
-      <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
+      <div style={{ flex: 1, overflow: "auto", position: "relative", WebkitOverflowScrolling: "touch" }}>
         {getContent()}
       </div>
 
@@ -2606,36 +2636,46 @@ function IPhoneAppSheet({ appId, hackerMode, onClose, openApp }) {
 function IPhoneAppIcon({ appId, onOpen, hackerMode }) {
   const app = APPS[appId];
   const [pressed, setPressed] = useState(false);
+  const handleTouchStart = e => { e.stopPropagation(); setPressed(true); };
+  const handleTouchEnd   = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    setPressed(false);
+    onOpen(appId);
+  };
   return (
     <div
-      onPointerDown={() => setPressed(true)}
-      onPointerUp={() => { setPressed(false); onOpen(appId); }}
-      onPointerLeave={() => setPressed(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onClick={() => onOpen(appId)}
+      onMouseDown={() => setPressed(true)}
+      onMouseUp={() => setPressed(false)}
+      onMouseLeave={() => setPressed(false)}
       style={{
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-        cursor: "pointer",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 5,
+        cursor: "pointer", WebkitTapHighlightColor: "transparent",
         transform: pressed ? "scale(0.88)" : "scale(1)",
         transition: "transform 0.12s",
+        padding: "4px 2px", minWidth: 0,
       }}
     >
-      {/* Icon bubble */}
       <div style={{
-        width: 62, height: 62, borderRadius: 16,
+        width: 54, height: 54, borderRadius: 14,
         background: `linear-gradient(145deg, ${app.color}33, ${app.color}66)`,
         border: `1.5px solid ${app.color}55`,
         display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 28,
-        boxShadow: pressed ? `0 0 18px ${app.color}77` : `0 4px 16px rgba(0,0,0,0.5), 0 0 0 0.5px ${app.color}33`,
+        fontSize: 24, flexShrink: 0,
+        boxShadow: pressed ? `0 0 16px ${app.color}77` : `0 3px 12px rgba(0,0,0,0.5), 0 0 0 0.5px ${app.color}33`,
         backdropFilter: "blur(10px)",
       }}>
         {app.icon}
       </div>
-      {/* Label */}
       <span style={{
-        fontSize: 10, color: "rgba(255,255,255,0.85)",
+        fontSize: 9, color: "rgba(255,255,255,0.82)",
         fontFamily: "'JetBrains Mono', monospace",
-        letterSpacing: 0.3, textAlign: "center",
-        maxWidth: 64, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+        letterSpacing: 0.2, textAlign: "center",
+        width: "100%", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+        lineHeight: 1.3,
       }}>{app.title}</span>
     </div>
   );
@@ -2644,16 +2684,15 @@ function IPhoneAppIcon({ appId, onOpen, hackerMode }) {
 // iPhone-style dock (bottom 4 apps)
 function IPhoneDock({ onOpen, hackerMode }) {
   const dockApps = ["about", "projects", "gallery", "contact"];
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
   return (
     <div style={{
-      margin: "0 16px 8px",
+      margin: "0 12px 6px",
       background: "rgba(255,255,255,0.07)",
       backdropFilter: "blur(30px)",
-      borderRadius: 26,
+      borderRadius: 24,
       border: "1px solid rgba(255,255,255,0.12)",
-      padding: "12px 20px",
-      display: "flex", justifyContent: "space-around", alignItems: "center",
+      padding: "10px 8px",
+      display: "flex", justifyContent: "space-around", alignItems: "center", gap: 4,
     }}>
       {dockApps.map(id => (
         <IPhoneAppIcon key={id} appId={id} onOpen={onOpen} hackerMode={hackerMode} />
@@ -2786,12 +2825,14 @@ function IPhoneLockScreen({ onUnlock, hackerMode }) {
 
 // ── Main iPhone OS component ──────────────────────────────────
 function IPhoneOS() {
-  const [locked, setLocked]       = useState(true);
-  const [booting, setBooting]     = useState(true);
-  const [activeApp, setActiveApp] = useState(null);
+  const [locked, setLocked]         = useState(true);
+  const [booting, setBooting]       = useState(true);
+  const [activeApp, setActiveApp]   = useState(null);
   const [hackerMode, setHackerMode] = useState(false);
-  const [time, setTime]           = useState(new Date());
-  const [page, setPage]           = useState(0); // home screen page
+  const [time, setTime]             = useState(new Date());
+  const [page, setPage]             = useState(0);
+  // touch swipe state (on the page container, NOT a blocking overlay)
+  const swipeStartX = useRef(null);
 
   const accent = hackerMode ? "#39ff14" : "#00fff7";
 
@@ -2800,12 +2841,27 @@ function IPhoneOS() {
     return () => clearInterval(t);
   }, []);
 
-  // App grid pages — 8 per page (2 rows × 4 cols)
-  const homeApps  = ["about", "terminal", "projects", "vscode", "sih", "blockchain", "certs", "settings"];
-  const page2Apps = ["gallery", "contact"];
+  // ── ALL 10 apps spread across 3 pages ─────────────────────
+  // Page 0: 8 apps (2 rows × 4 cols)
+  // Page 1: remaining apps
+  const page0 = ["about", "terminal", "projects", "vscode", "sih", "blockchain", "gallery", "certs"];
+  const page1 = ["contact", "settings"];
+
+  const allPages = [page0, page1];
+  const totalPages = allPages.length;
 
   const openApp  = id => setActiveApp(id);
   const closeApp = ()  => setActiveApp(null);
+
+  // Touch swipe on the home-screen container (no blocking overlay)
+  const onTouchStart = e => { swipeStartX.current = e.touches[0].clientX; };
+  const onTouchEnd   = e => {
+    if (swipeStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - swipeStartX.current;
+    if (dx < -50 && page < totalPages - 1) setPage(p => p + 1);
+    else if (dx > 50 && page > 0)          setPage(p => p - 1);
+    swipeStartX.current = null;
+  };
 
   if (booting) {
     return (
@@ -2828,12 +2884,13 @@ function IPhoneOS() {
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;700&display=swap');
         * { box-sizing: border-box; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-        @keyframes floatUp { 0%{opacity:0;transform:translateY(8px)} 100%{opacity:1;transform:translateY(0)} }
+        input, textarea, select { font-size: 16px !important; }
+        button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
       `}</style>
 
       {/* Wallpaper */}
-      <img src="/mac.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: hackerMode ? 0 : 0.35, transition: "opacity 0.8s", pointerEvents: "none" }} />
-      <img src="/mac-dark.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: hackerMode ? 0.5 : 0, transition: "opacity 0.8s", pointerEvents: "none" }} />
+      <img src="/macos-big-sur-apple-layers-fluidic-colorful-wwdc-stock-4096x2304-1455.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: hackerMode ? 0 : 0.35, transition: "opacity 0.8s", pointerEvents: "none" }} />
+      <img src="/mac-dark-doobxk88nn421e56.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: hackerMode ? 0.5 : 0, transition: "opacity 0.8s", pointerEvents: "none" }} />
       <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 0, pointerEvents: "none" }} />
 
       {/* Status bar */}
@@ -2841,91 +2898,89 @@ function IPhoneOS() {
         <IPhoneStatusBar hackerMode={hackerMode} time={time} />
       </div>
 
-      {/* Home screen */}
-      <div style={{ flex: 1, overflow: "hidden", position: "relative", zIndex: 5 }}>
-        
-        {/* Page indicator */}
-        <div style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 5, zIndex: 20 }}>
-          {[0, 1].map(i => (
-            <div key={i} onClick={() => setPage(i)} style={{
+      {/* Home screen — touch events HERE, not on a blocking overlay */}
+      <div
+        style={{ flex: 1, overflow: "hidden", position: "relative", zIndex: 5 }}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* Page indicator dots */}
+        <div style={{
+          position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)",
+          display: "flex", gap: 5, zIndex: 20, pointerEvents: "none",
+        }}>
+          {allPages.map((_, i) => (
+            <div key={i} style={{
               width: page === i ? 16 : 7, height: 7, borderRadius: 4,
               background: page === i ? accent : "rgba(255,255,255,0.3)",
-              cursor: "pointer", transition: "all 0.3s",
+              transition: "all 0.3s",
             }} />
           ))}
         </div>
 
-        {/* Swipeable pages */}
+        {/* Sliding pages container — 100vw per page */}
         <div style={{
-          display: "flex", width: "200%", height: "100%",
-          transform: `translateX(-${page * 50}%)`,
+          display: "flex",
+          width: `${totalPages * 100}vw`,
+          height: "100%",
+          transform: `translateX(-${page * 100}vw)`,
           transition: "transform 0.4s cubic-bezier(0.32,0.72,0,1)",
         }}>
-          {/* Page 1 — main apps */}
-          <div style={{
-            width: "50%", height: "100%", padding: "28px 16px 0",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gridTemplateRows: "repeat(2, auto)",
-            gap: "24px 0", alignContent: "start",
-          }}>
-            {homeApps.map(id => (
-              <IPhoneAppIcon key={id} appId={id} onOpen={openApp} hackerMode={hackerMode} />
-            ))}
-          </div>
+          {allPages.map((pageApps, pageIdx) => (
+            <div key={pageIdx} style={{
+              width: "100vw",
+              flexShrink: 0,
+              height: "100%",
+              padding: "28px 4px 12px",
+              display: "grid",
+              gridTemplateColumns: "repeat(4, 1fr)",
+              gap: "14px 0",
+              alignContent: "start",
+              overflowY: "auto",
+            }}>
+              {pageApps.map(id => (
+                <IPhoneAppIcon key={id} appId={id} onOpen={openApp} hackerMode={hackerMode} />
+              ))}
 
-          {/* Page 2 — more apps + hacker toggle */}
-          <div style={{
-            width: "50%", height: "100%", padding: "28px 16px 0",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "24px 0", alignContent: "start",
-          }}>
-            {page2Apps.map(id => (
-              <IPhoneAppIcon key={id} appId={id} onOpen={openApp} hackerMode={hackerMode} />
-            ))}
-            {/* Hacker mode toggle as a "widget" */}
-            <div
-              onPointerDown={() => setHackerMode(h => !h)}
-              style={{
-                display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
-                cursor: "pointer",
-              }}
-            >
-              <div style={{
-                width: 62, height: 62, borderRadius: 16,
-                background: hackerMode ? "#39ff1433" : "rgba(255,255,255,0.08)",
-                border: `1.5px solid ${hackerMode ? "#39ff14" : "rgba(255,255,255,0.2)"}`,
-                display: "flex", alignItems: "center", justifyContent: "center", fontSize: 26,
-                boxShadow: hackerMode ? "0 0 20px #39ff1444" : "none",
-                transition: "all 0.3s",
-              }}>☠️</div>
-              <span style={{ fontSize: 10, color: hackerMode ? "#39ff14" : "rgba(255,255,255,0.7)", fontFamily: "'JetBrains Mono', monospace", textAlign: "center" }}>
-                {hackerMode ? "HACKER ON" : "Hacker"}
-              </span>
+              {/* Hacker mode toggle on last page */}
+              {pageIdx === totalPages - 1 && (
+                <div
+                  onTouchEnd={e => { e.stopPropagation(); e.preventDefault(); setHackerMode(h => !h); }}
+                  onClick={() => setHackerMode(h => !h)}
+                  style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, cursor: "pointer", WebkitTapHighlightColor: "transparent" }}
+                >
+                  <div style={{
+                    width: 54, height: 54, borderRadius: 14,
+                    background: hackerMode ? "#39ff1433" : "rgba(255,255,255,0.08)",
+                    border: `1.5px solid ${hackerMode ? "#39ff14" : "rgba(255,255,255,0.25)"}`,
+                    display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24,
+                    boxShadow: hackerMode ? "0 0 20px #39ff1444" : "0 3px 12px rgba(0,0,0,0.4)",
+                    transition: "all 0.3s",
+                  }}>☠️</div>
+                  <span style={{ fontSize: 10, color: hackerMode ? "#39ff14" : "rgba(255,255,255,0.75)", fontFamily: "'JetBrains Mono', monospace", textAlign: "center" }}>
+                    {hackerMode ? "HACKER ON" : "Hacker"}
+                  </span>
+                </div>
+              )}
             </div>
-          </div>
+          ))}
         </div>
 
         {/* Swipe hint */}
         <div style={{
-          position: "absolute", bottom: 16, left: "50%", transform: "translateX(-50%)",
-          fontSize: 9, color: "rgba(255,255,255,0.25)", letterSpacing: 2, textAlign: "center",
+          position: "absolute", bottom: 12, left: "50%", transform: "translateX(-50%)",
+          fontSize: 9, color: "rgba(255,255,255,0.22)", letterSpacing: 2, textAlign: "center",
           pointerEvents: "none",
         }}>
-          {page === 0 ? "← SWIPE FOR MORE →" : "← SWIPE BACK"}
+          {page < totalPages - 1 ? "← SWIPE FOR MORE →" : "← SWIPE BACK"}
         </div>
-
-        {/* Touch swipe handler overlay */}
-        <SwipeHandler onLeft={() => setPage(1)} onRight={() => setPage(0)} />
       </div>
 
       {/* Dock */}
       <div style={{ position: "relative", zIndex: 10, flexShrink: 0 }}>
         <IPhoneDock onOpen={openApp} hackerMode={hackerMode} />
-        {/* Home indicator */}
-        <div style={{ height: 20, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ width: 134, height: 5, borderRadius: 3, background: "rgba(255,255,255,0.2)" }} />
+        <div style={{ height: 14, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ width: 120, height: 4, borderRadius: 3, background: "rgba(255,255,255,0.2)" }} />
         </div>
       </div>
 
@@ -2936,6 +2991,7 @@ function IPhoneOS() {
           hackerMode={hackerMode}
           onClose={closeApp}
           openApp={openApp}
+          setHackerMode={setHackerMode}
         />
       )}
 
@@ -2944,26 +3000,6 @@ function IPhoneOS() {
         <IPhoneLockScreen onUnlock={() => setLocked(false)} hackerMode={hackerMode} />
       )}
     </div>
-  );
-}
-
-// Simple swipe gesture handler
-function SwipeHandler({ onLeft, onRight }) {
-  const startX = useRef(null);
-  return (
-    <div
-      style={{ position: "absolute", inset: 0, zIndex: 15 }}
-      onTouchStart={e => { startX.current = e.touches[0].clientX; }}
-      onTouchEnd={e => {
-        if (startX.current === null) return;
-        const dx = e.changedTouches[0].clientX - startX.current;
-        if (dx < -50) onLeft();
-        else if (dx > 50) onRight();
-        startX.current = null;
-      }}
-      // Pass-through taps
-      onClick={e => e.stopPropagation()}
-    />
   );
 }
 

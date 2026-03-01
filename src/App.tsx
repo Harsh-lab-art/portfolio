@@ -97,11 +97,12 @@ function Wallpaper({ hackerMode }) {
         src="macos-big-sur.jpg"
         alt="wallpaper"
         style={{
-          position: "fixed", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover", zIndex: 0,
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          width: "100vw", height: "100vh",
+          objectFit: "cover", objectPosition: "center center", zIndex: 0,
           opacity: hackerMode ? 0 : 1,
           transition: "opacity 0.8s ease",
-          pointerEvents: "none",
+          pointerEvents: "none", display: "block",
         }}
       />
 
@@ -110,11 +111,12 @@ function Wallpaper({ hackerMode }) {
         src="mac-dark.jpg"
         alt="hacker wallpaper"
         style={{
-          position: "fixed", inset: 0, width: "100%", height: "100%",
-          objectFit: "cover", zIndex: 0,
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          width: "100vw", height: "100vh",
+          objectFit: "cover", objectPosition: "center center", zIndex: 0,
           opacity: hackerMode ? 1 : 0,
           transition: "opacity 0.8s ease",
-          pointerEvents: "none",
+          pointerEvents: "none", display: "block",
         }}
       />
 
@@ -122,7 +124,8 @@ function Wallpaper({ hackerMode }) {
       <canvas
         ref={matrixRef}
         style={{
-          position: "fixed", inset: 0, width: "100%", height: "100%",
+          position: "fixed", top: 0, left: 0, right: 0, bottom: 0,
+          width: "100vw", height: "100vh",
           zIndex: 1,
           opacity: hackerMode ? 1 : 0,
           transition: "opacity 0.8s ease",
@@ -2036,6 +2039,11 @@ function CertsApp({ hackerMode }) {
   const accent = hackerMode ? "#39ff14" : "#ffd700";
   const [filter, setFilter] = useState("All");
   const [hovered, setHovered] = useState(null);
+  // certImages: { [certIndex]: { dataUrl, fileName } }
+  const [certImages, setCertImages] = useState({});
+  const [lightboxCert, setLightboxCert] = useState(null); // index of cert to preview
+  const fileInputRefs = useRef({});
+
   const cats = ["All", "Hackathons", "Internships", "Courses", "Achievements"];
   const certs = [
     { title: "SIH 2025 Finalist", cat: "Hackathons", icon: "⚔", color: "#ff6b35", org: "Govt. of India — Smart India Hackathon" },
@@ -2051,8 +2059,48 @@ function CertsApp({ hackerMode }) {
   ];
   const filtered = filter === "All" ? certs : certs.filter(c => c.cat === filter);
 
+  // Resolve the true index (position in `certs[]`) from filtered list
+  const getTrueIdx = (filteredIdx) => {
+    const cert = filtered[filteredIdx];
+    return certs.findIndex(c => c.title === cert.title);
+  };
+
+  const handleImageUpload = (trueIdx, e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setCertImages(prev => ({
+        ...prev,
+        [trueIdx]: { dataUrl: ev.target.result, fileName: file.name },
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDownload = (trueIdx, cert) => {
+    const img = certImages[trueIdx];
+    if (!img) return;
+    const a = document.createElement("a");
+    a.href = img.dataUrl;
+    a.download = img.fileName || `${cert.title.replace(/\s+/g, "_")}_certificate.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  };
+
+  const handleRemoveImage = (trueIdx) => {
+    setCertImages(prev => {
+      const next = { ...prev };
+      delete next[trueIdx];
+      return next;
+    });
+  };
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace" }}>
+
+      {/* Filter tabs */}
       <div style={{ padding: "10px 12px", borderBottom: "1px solid #ffffff11", display: "flex", gap: 6, flexShrink: 0, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {cats.map(c => (
           <button key={c} onClick={() => setFilter(c)} style={{
@@ -2064,39 +2112,188 @@ function CertsApp({ hackerMode }) {
           }}>{c}</button>
         ))}
       </div>
-      <div style={{ flex: 1, overflow: "auto", padding: 20 }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 10 }}>
-          {filtered.map((c, i) => (
-            <div key={i}
-              onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}
-              style={{
-                background: "rgba(255,255,255,0.03)", border: `1px solid ${c.color}44`,
-                borderRadius: 12, padding: 20, position: "relative", overflow: "hidden",
-                transition: "all 0.3s",
-                boxShadow: hovered === i ? `0 0 30px ${c.color}44, 0 0 0 1px ${c.color}66` : "none",
-                transform: hovered === i ? "translateY(-2px)" : "none",
-              }}
-            >
-              {hovered === i && (
-                <div style={{ position: "absolute", top: 0, left: "-100%", width: "60%", height: "100%",
-                  background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)",
-                  animation: "shine 0.5s ease", pointerEvents: "none" }} />
-              )}
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ fontSize: 28 }}>{c.icon}</div>
-                <span style={{ fontSize: 9, padding: "2px 8px", borderRadius: 10, background: "#39ff1422", color: "#39ff14", border: "1px solid #39ff1444" }}>✓ VERIFIED</span>
+
+      {/* Certificate cards */}
+      <div style={{ flex: 1, overflow: "auto", padding: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
+          {filtered.map((c, fi) => {
+            const ti = getTrueIdx(fi);
+            const img = certImages[ti];
+            return (
+              <div key={ti}
+                onMouseEnter={() => setHovered(ti)} onMouseLeave={() => setHovered(null)}
+                style={{
+                  background: "rgba(255,255,255,0.03)", border: `1px solid ${c.color}44`,
+                  borderRadius: 12, padding: 16, position: "relative", overflow: "hidden",
+                  transition: "all 0.3s",
+                  boxShadow: hovered === ti ? `0 0 30px ${c.color}44, 0 0 0 1px ${c.color}66` : "none",
+                  transform: hovered === ti ? "translateY(-2px)" : "none",
+                }}
+              >
+                {hovered === ti && (
+                  <div style={{ position: "absolute", top: 0, left: "-100%", width: "60%", height: "100%",
+                    background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent)",
+                    animation: "shine 0.5s ease", pointerEvents: "none" }} />
+                )}
+
+                {/* Header row */}
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                  <div style={{ fontSize: 26 }}>{c.icon}</div>
+                  <span style={{ fontSize: 9, padding: "2px 8px", borderRadius: 10, background: "#39ff1422", color: "#39ff14", border: "1px solid #39ff1444", flexShrink: 0 }}>✓ VERIFIED</span>
+                </div>
+
+                <div style={{ fontSize: 13, fontWeight: 700, color: c.color, marginTop: 8, fontFamily: "Orbitron, monospace", wordBreak: "break-word" }}>{c.title}</div>
+                <div style={{ fontSize: 11, color: "#888", marginTop: 3 }}>{c.org}</div>
+
+                {/* Certificate image preview */}
+                {img && (
+                  <div style={{ marginTop: 12, position: "relative" }}>
+                    <img
+                      src={img.dataUrl}
+                      alt={c.title}
+                      onClick={() => setLightboxCert(ti)}
+                      style={{
+                        width: "100%", maxHeight: 160, objectFit: "contain",
+                        borderRadius: 8, border: `1px solid ${c.color}44`,
+                        background: "rgba(0,0,0,0.4)", cursor: "zoom-in",
+                        display: "block",
+                      }}
+                    />
+                    {/* Remove button */}
+                    <button
+                      onClick={() => handleRemoveImage(ti)}
+                      style={{
+                        position: "absolute", top: 6, right: 6,
+                        width: 22, height: 22, borderRadius: "50%",
+                        background: "rgba(0,0,0,0.75)", border: "1px solid #ffffff33",
+                        color: "#fff", fontSize: 11, cursor: "pointer",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontFamily: "inherit",
+                      }}
+                    >✕</button>
+                    {/* File name */}
+                    <div style={{ fontSize: 9, color: "#555", marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                      📎 {img.fileName}
+                    </div>
+                  </div>
+                )}
+
+                {/* Action buttons */}
+                <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
+
+                  {/* Hidden file input */}
+                  <input
+                    ref={el => { fileInputRefs.current[ti] = el; }}
+                    type="file"
+                    accept="image/*,.pdf"
+                    style={{ display: "none" }}
+                    onChange={(e) => handleImageUpload(ti, e)}
+                  />
+
+                  {/* Upload button */}
+                  <button
+                    onClick={() => fileInputRefs.current[ti]?.click()}
+                    style={{
+                      fontSize: 10, padding: "5px 12px", borderRadius: 6,
+                      background: img ? "rgba(255,255,255,0.05)" : `${c.color}18`,
+                      border: `1px solid ${img ? "#ffffff22" : c.color + "55"}`,
+                      color: img ? "#888" : c.color, cursor: "pointer", fontFamily: "inherit",
+                      display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap",
+                    }}
+                  >
+                    {img ? "↺ Replace" : "📎 Add Image"}
+                  </button>
+
+                  {/* Download button — only active when image is uploaded */}
+                  <button
+                    onClick={() => img && handleDownload(ti, c)}
+                    disabled={!img}
+                    style={{
+                      fontSize: 10, padding: "5px 12px", borderRadius: 6,
+                      background: img ? `${c.color}22` : "rgba(255,255,255,0.02)",
+                      border: `1px solid ${img ? c.color + "55" : "#ffffff0d"}`,
+                      color: img ? c.color : "#333", cursor: img ? "pointer" : "not-allowed",
+                      fontFamily: "inherit", display: "flex", alignItems: "center", gap: 5,
+                      whiteSpace: "nowrap", transition: "all 0.2s",
+                    }}
+                  >
+                    ↓ Download
+                  </button>
+
+                  {/* Preview button */}
+                  {img && (
+                    <button
+                      onClick={() => setLightboxCert(ti)}
+                      style={{
+                        fontSize: 10, padding: "5px 12px", borderRadius: 6,
+                        background: "rgba(255,255,255,0.04)", border: "1px solid #ffffff22",
+                        color: "#aaa", cursor: "pointer", fontFamily: "inherit",
+                        display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap",
+                      }}
+                    >
+                      🔍 Preview
+                    </button>
+                  )}
+                </div>
               </div>
-              <div style={{ fontSize: 14, fontWeight: 700, color: c.color, marginTop: 10, fontFamily: "Orbitron, monospace" }}>{c.title}</div>
-              <div style={{ fontSize: 11, color: "#888", marginTop: 4 }}>{c.org}</div>
-              <div style={{ marginTop: 12 }}>
-                <button style={{ fontSize: 10, padding: "3px 10px", borderRadius: 6, background: `${c.color}22`, border: `1px solid ${c.color}55`, color: c.color, cursor: "pointer", fontFamily: "inherit" }}>
-                  ↓ Download
-                </button>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
+
+      {/* Full-screen certificate lightbox */}
+      {lightboxCert !== null && certImages[lightboxCert] && (
+        <div
+          onClick={() => setLightboxCert(null)}
+          style={{
+            position: "absolute", inset: 0, zIndex: 300,
+            background: "rgba(0,0,0,0.97)", backdropFilter: "blur(16px)",
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+            padding: 24,
+          }}
+        >
+          <button
+            onClick={() => setLightboxCert(null)}
+            style={{
+              position: "absolute", top: 14, right: 14, width: 34, height: 34,
+              borderRadius: "50%", background: "rgba(255,255,255,0.1)", border: "1px solid #ffffff22",
+              color: "#fff", fontSize: 16, cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}
+          >✕</button>
+
+          <img
+            src={certImages[lightboxCert].dataUrl}
+            alt="Certificate"
+            onClick={e => e.stopPropagation()}
+            style={{
+              maxWidth: "90%", maxHeight: "75vh", objectFit: "contain",
+              borderRadius: 12, border: `1px solid ${certs[lightboxCert]?.color ?? accent}44`,
+              boxShadow: `0 0 60px ${certs[lightboxCert]?.color ?? accent}33`,
+            }}
+          />
+
+          <div style={{ marginTop: 18, textAlign: "center" }}>
+            <div style={{ fontSize: 14, fontWeight: 700, color: certs[lightboxCert]?.color ?? accent, fontFamily: "Orbitron, monospace" }}>
+              {certs[lightboxCert]?.title}
+            </div>
+            <div style={{ fontSize: 11, color: "#666", marginTop: 4 }}>{certs[lightboxCert]?.org}</div>
+            <button
+              onClick={e => { e.stopPropagation(); handleDownload(lightboxCert, certs[lightboxCert]); }}
+              style={{
+                marginTop: 14, padding: "8px 24px", borderRadius: 8,
+                background: `${certs[lightboxCert]?.color ?? accent}22`,
+                border: `1px solid ${certs[lightboxCert]?.color ?? accent}55`,
+                color: certs[lightboxCert]?.color ?? accent,
+                fontFamily: "'JetBrains Mono', monospace", fontSize: 12, cursor: "pointer",
+                letterSpacing: 1,
+              }}
+            >
+              ↓ Download Certificate
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -2221,7 +2418,7 @@ function SettingsApp({ hackerMode, setHackerMode, accentColor, setAccentColor })
 }
 
 // ============================================================
-// DOCK
+// icon
 // ============================================================
 function Dock({ onOpen, hackerMode, minimized }) {
   const [hovered, setHovered] = useState(null);
@@ -2450,7 +2647,7 @@ function HarshOS() {
 
   return (
     <div
-      style={{ width: "100vw", height: "100vh", overflow: "hidden", cursor: "default", userSelect: "none" }}
+      style={{ width: "100vw", height: "100vh", overflow: "hidden", cursor: "default", userSelect: "none", background: "#000" }}
       onContextMenu={e => { e.preventDefault(); setCtxMenu({ x: e.clientX, y: e.clientY }); }}
       onClick={() => setCtxMenu(null)}
     >
@@ -2458,7 +2655,8 @@ function HarshOS() {
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;700&display=swap');
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         @keyframes shine { 0%{left:-100%} 100%{left:200%} }
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
         ::-webkit-scrollbar-thumb { background: rgba(0,255,247,0.3); border-radius: 2px; }
@@ -2488,8 +2686,8 @@ function HarshOS() {
 
       {windows.length === 0 && !booting && (
         <div style={{ position: "absolute", bottom: 90, left: "50%", transform: "translateX(-50%)", textAlign: "center", fontFamily: "'JetBrains Mono', monospace", color: "rgba(0,255,247,0.3)", fontSize: 12, letterSpacing: 2, pointerEvents: "none" }}>
-          <div>Click dock icons to open apps</div>
-          <div style={{ marginTop: 4, fontSize: 10 }}>⌘K / CTRL+K for Spotlight · Right-click for menu</div>
+          <div>Click on icons to open apps</div>
+          <div style={{ marginTop: 4, fontSize: 10 }}> CTRL+K for Spotlight · Right-click for menu</div>
         </div>
       )}
     </div>
@@ -2886,16 +3084,17 @@ function IPhoneOS() {
     }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;700&display=swap');
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { width: 100%; height: 100%; overflow: hidden; background: #000; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
         input, textarea, select { font-size: 16px !important; }
         button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
       `}</style>
 
       {/* Wallpaper */}
-      <img src="/macos-big-sur-apple-layers-fluidic-colorful-wwdc-stock-4096x2304-1455.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: hackerMode ? 0 : 0.35, transition: "opacity 0.8s", pointerEvents: "none" }} />
-      <img src="/mac-dark-doobxk88nn421e56.jpg" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0, opacity: hackerMode ? 0.5 : 0, transition: "opacity 0.8s", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)", zIndex: 0, pointerEvents: "none" }} />
+      <img src="macos-big-sur.jpg" alt="" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100dvh", objectFit: "cover", objectPosition: "center center", zIndex: 0, opacity: hackerMode ? 0 : 0.35, transition: "opacity 0.8s", pointerEvents: "none", display: "block" }} />
+      <img src="mac-dark.jpg" alt="" style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100dvh", objectFit: "cover", objectPosition: "center center", zIndex: 0, opacity: hackerMode ? 0.5 : 0, transition: "opacity 0.8s", pointerEvents: "none", display: "block" }} />
+      <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, width: "100vw", height: "100dvh", background: "rgba(0,0,0,0.55)", zIndex: 0, pointerEvents: "none" }} />
 
       {/* Status bar */}
       <div style={{ position: "relative", zIndex: 10, flexShrink: 0 }}>

@@ -1218,11 +1218,11 @@ class ScalableHostingArchitecture:
 
 // SIH photos shared between GalleryApp and SIHApp
 const SIH_PHOTOS = [
-  { id: "s1", img: "/sih1.jpg", emoji: "⚔", label: "Team Presentation", caption: "Presenting AgroChain to the judges at SIH 2025 grand finale." },
-  { id: "s2", img: "/sih2.jpg", emoji: "💻", label: "Hacking Session",   caption: "48 hours of non-stop coding — building the GNN malware analyzer." },
-  { id: "s3", img: "/sih3.jpg", emoji: "🏆", label: "Finalist Stage",    caption: "Standing on the finalist stage at Smart India Hackathon 2025." },
-  { id: "s4", img: "/sih4.jpg", emoji: "🤝", label: "Team Photo",        caption: "The team that made it to SIH 2025 nationals — proud moment!" },
-  { id: "s5", img: "/sih5.jpg", emoji: "🎯", label: "Problem Statement", caption: "Working through the AI/ML firmware security problem statement." },
+  { id: "s1", img: "sih1.jpeg", emoji: "⚔", label: "Team Presentation", caption: "Presenting AgroChain to the judges at SIH 2025 grand finale." },
+  { id: "s2", img: "sih11.jpeg", emoji: "💻", label: "Hacking Session",   caption: "48 hours of non-stop coding — building the GNN malware analyzer." },
+  { id: "s3", img: "sih3.jpeg", emoji: "🏆", label: "Finalist Stage",    caption: "Standing on the finalist stage at Smart India Hackathon 2025." },
+  { id: "s4", img: "sih4.jpeg", emoji: "🤝", label: "Team Photo",        caption: "The team that made it to SIH 2025 nationals — proud moment!" },
+  { id: "s5", img: "sih5.jpeg", emoji: "🎯", label: "Problem Statement", caption: "Working through the AI/ML firmware security problem statement." },
 ];
 
 // Reusable photo thumbnail

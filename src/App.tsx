@@ -1,5 +1,14 @@
 //@ts-nocheck
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, createContext, useContext } from "react";
+
+// ============================================================
+// ACCENT COLOR CONTEXT
+// ============================================================
+const AccentContext = createContext("#00fff7");
+const useAccent = (hackerMode) => {
+  const ctx = useContext(AccentContext);
+  return hackerMode ? "#39ff14" : ctx;
+};
 
 // ============================================================
 // TYPES & CONSTANTS
@@ -13,14 +22,19 @@ const APPS = {
   blockchain: { id: "blockchain", title: "Web3", icon: "⬡", color: "#f7931a" },
   gallery: { id: "gallery", title: "Gallery", icon: "⊞", color: "#ff2d78" },
   certs: { id: "certs", title: "Certificates", icon: "✦", color: "#ffd700" },
+  resume: { id: "resume", title: "Resume", icon: "📄", color: "#a8ff78" },
+  skills: { id: "skills", title: "Skills", icon: "◎", color: "#00e5ff" },
+  github: { id: "github", title: "GitHub", icon: "◉", color: "#6e40c9" },
+  music: { id: "music", title: "Music", icon: "♫", color: "#ff2d78" },
+  chat: { id: "chat", title: "AI Chat", icon: "⟁", color: "#00ff88" },
   contact: { id: "contact", title: "Contact", icon: "✉", color: "#00d4ff" },
   settings: { id: "settings", title: "Settings", icon: "⚙", color: "#888" },
 };
 
-const DOCK_APPS = ["about","terminal","projects","vscode","sih","blockchain","gallery","certs","contact"];
+const DOCK_APPS = ["about","terminal","projects","vscode","sih","blockchain","gallery","certs","resume","skills","github","music","chat","contact"];
 
 const COMMANDS = {
-  help: () => `╔══════════════════════════════════════╗\n║         HARSHOS COMMAND HELP          ║\n╚══════════════════════════════════════╝\n\n  about          → System info\n  whoami          → Identity\n  skills          → Tech stack\n  projects        → Projects list\n  internship      → Internship details\n  sih             → SIH finalist project\n  blockchain      → Web3 projects\n  certificates    → Achievements\n  contact         → Get in touch\n  ls              → List directory\n  open [app]      → Open window\n  theme hacker    → Enable hacker mode\n  theme default   → Disable hacker mode\n  clear           → Clear terminal\n  exit            → Close terminal`,
+  help: () => `╔══════════════════════════════════════╗\n║         HARSHOS COMMAND HELP          ║\n╚══════════════════════════════════════╝\n\n  about          → System info\n  whoami          → Identity\n  skills          → Tech stack\n  projects        → Projects list\n  internship      → Internship details\n  sih             → SIH finalist project\n  blockchain      → Web3 projects\n  certificates    → Achievements\n  contact         → Get in touch\n  ls              → List directory\n  wpm             → Typing speed stats\n  open [app]      → Open window\n  theme hacker    → Enable hacker mode\n  theme default   → Disable hacker mode\n  clear           → Clear terminal\n  exit            → Close terminal`,
   whoami: () => `┌─────────────────────────────────────┐\n│  USER: harsh_kumar_verma            │\n│  ROLE: AI Security Engineer         │\n│  CLEARANCE: CLASSIFIED ████████     │\n│  STATUS: ACTIVE                     │\n│  LOCATION: Bhopal, MP, India        │\n└─────────────────────────────────────┘`,
   about: () => `[SYS] Loading profile...\n\n  Name    : Harsh Kumar Verma\n  Degree  : B.Tech CSE — CPI 8.11\n  Focus   : AI Security + Defence Tech\n  Status  : SIH Finalist | Defence Tech Intern\n  Mission : Building AI systems for national-scale security\n\n[SYS] Profile loaded successfully.`,
   skills: () => `[SCAN] Analyzing skill matrix...\n\n  ⬡ AI/ML       → PyTorch, TensorFlow, Scikit-learn, GNN\n  ⬡ Security    → Firmware Analysis, Malware Detection\n  ⬡ Backend     → FastAPI, Node.js, Flask, Python\n  ⬡ Frontend    → React, TypeScript, TailwindCSS\n  ⬡ Blockchain  → Solidity, Web3.js, Smart Contracts\n  ⬡ DevOps      → Docker, Git, Linux, Hardhat\n  ⬡ Crypto      → ZKP, Cryptographic Primitives, PKI\n\n[SCAN] 50+ skills detected. Threat level: EXPERT`,
@@ -287,7 +301,7 @@ function Window({ id, title, children, onClose, onMinimize, hackerMode, initialP
   const handleMinimize = e => { e.stopPropagation(); e.preventDefault(); onMinimize(); };
   const handleMaximize = e => { e.stopPropagation(); e.preventDefault(); toggleMax(); };
 
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
   const style = maximized
     ? { position: "fixed", left: 0, top: 28, width: "100vw", height: "calc(100vh - 28px)", zIndex }
     : { position: "fixed", left: pos.x, top: pos.y, width: size.w, height: size.h, zIndex };
@@ -399,7 +413,7 @@ function AboutApp({ hackerMode }) {
   const [typed, setTyped] = useState("");
   const [count, setCount] = useState(0);
   const msg = "Building AI systems for national-scale security";
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
 
   useEffect(() => {
     setTyped(""); setCount(0);
@@ -432,11 +446,11 @@ function AboutApp({ hackerMode }) {
         <div style={{ flexShrink: 0 }}>
           <div style={{
             width: 80, height: 80, borderRadius: "50%",
-            background: `linear-gradient(135deg, ${accent}44, #bf00ff44)`,
             border: `2px solid ${accent}`, boxShadow: `0 0 20px ${accent}55`,
-            display: "flex", alignItems: "center", justifyContent: "center", fontSize: 36,
-            flexShrink: 0,
-          }}>🧑‍💻</div>
+            flexShrink: 0, overflow: "hidden",
+          }}>
+            <img src="mee.jpeg" alt="Harsh Kumar Verma" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", display: "block" }} />
+          </div>
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 18, fontWeight: 700, fontFamily: "Orbitron, monospace", color: accent, letterSpacing: 1, wordBreak: "break-word" }}>
@@ -445,7 +459,7 @@ function AboutApp({ hackerMode }) {
           <div style={{ marginTop: 6, color: "#bf00ff", fontSize: 13, letterSpacing: 3, textTransform: "uppercase" }}>
             AI Security Engineer · Defence Tech Intern
           </div>
-          <div style={{ marginTop: 4, fontSize: 12, color: "#888" }}>B.Tech CSE · CPI 8.11 · SIH 2025 Finalist · Bhopal, MP</div>
+          <div style={{ marginTop: 4, fontSize: 12, color: "#888" }}>B.Tech CSE · CPI 8.28 · SIH 2025 Finalist · Bhopal, MP</div>
           <div style={{ marginTop: 16, fontSize: 13, color: accent, fontStyle: "italic", minHeight: 20 }}>
             "{typed}<span style={{ animation: "blink 1s infinite", borderLeft: `2px solid ${accent}` }}>&nbsp;</span>"
           </div>
@@ -502,7 +516,36 @@ function TerminalApp({ hackerMode, onOpenApp }) {
   const [histIdx, setHistIdx] = useState(-1);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
+
+  // ── WPM tracking ─────────────────────────────────────────
+  const [wpm, setWpm] = useState(0);
+  const [wpmPeak, setWpmPeak] = useState(0);
+  const [totalChars, setTotalChars] = useState(0);
+  const [totalCmds, setTotalCmds] = useState(0);
+  const keystrokeLog = useRef([]); // timestamps of recent keystrokes
+
+  const trackKeystroke = () => {
+    const now = Date.now();
+    keystrokeLog.current.push(now);
+    // Keep only keystrokes in the last 5 seconds
+    keystrokeLog.current = keystrokeLog.current.filter(t => now - t <= 5000);
+    // WPM = (keystrokes in last 5s / 5 chars per word) * (60s / 5s window)
+    const cps = keystrokeLog.current.length / 5;
+    const live = Math.round(cps * 60 / 5);
+    setWpm(live);
+    setWpmPeak(p => Math.max(p, live));
+  };
+
+  // Decay WPM to 0 when not typing
+  useEffect(() => {
+    const t = setInterval(() => {
+      const now = Date.now();
+      keystrokeLog.current = keystrokeLog.current.filter(t => now - t <= 5000);
+      if (keystrokeLog.current.length === 0) setWpm(0);
+    }, 500);
+    return () => clearInterval(t);
+  }, []);
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [history]);
 
@@ -511,8 +554,13 @@ function TerminalApp({ hackerMode, onOpenApp }) {
     if (!c) return;
     setCmdHistory(h => [cmd, ...h]);
     setHistIdx(-1);
+    setTotalChars(n => n + cmd.length);
+    setTotalCmds(n => n + 1);
     let out = "";
     if (c === "clear") { setHistory([]); setInput(""); return; }
+    else if (c === "wpm") {
+      out = `╔══════════════════════════════════╗\n║         TYPING STATISTICS        ║\n╚══════════════════════════════════╝\n\n  Current WPM  : ${wpm}\n  Peak WPM     : ${wpmPeak}\n  Commands run : ${totalCmds + 1}\n  Chars typed  : ${totalChars + cmd.length}\n\n${wpmPeak >= 80 ? "  ⚡ ELITE HACKER SPEED DETECTED" : wpmPeak >= 50 ? "  ✓ Solid typing speed" : "  ↑ Keep practicing, agent"}`;
+    }
     else if (c.startsWith("open ")) {
       const target = c.replace("open ", "");
       const map = { gallery: "gallery", certificates: "certs", certs: "certs", projects: "projects", terminal: "terminal", blockchain: "blockchain", contact: "contact", about: "about" };
@@ -532,36 +580,77 @@ function TerminalApp({ hackerMode, onOpenApp }) {
   };
 
   const onKey = e => {
-    if (e.key === "Enter") run(input);
+    if (e.key === "Enter") { run(input); return; }
     if (e.key === "ArrowUp") {
       const idx = Math.min(histIdx + 1, cmdHistory.length - 1);
       setHistIdx(idx); if (cmdHistory[idx]) setInput(cmdHistory[idx]);
+      return;
     }
     if (e.key === "ArrowDown") {
       const idx = Math.max(histIdx - 1, -1);
       setHistIdx(idx); setInput(idx === -1 ? "" : cmdHistory[idx] || "");
+      return;
     }
+    // Track all printable keystrokes for WPM
+    if (e.key.length === 1) trackKeystroke();
   };
 
+  // WPM color
+  const wpmColor = wpm === 0 ? "#333" : wpm >= 80 ? "#39ff14" : wpm >= 50 ? "#ffd700" : accent;
+
   return (
-    <div onClick={() => inputRef.current?.focus()} style={{
-      padding: 16, height: "100%", background: "rgba(0,0,0,0.6)", color: accent,
-      fontFamily: "'JetBrains Mono', monospace", fontSize: 12, lineHeight: 1.7,
-      overflowY: "auto", cursor: "text", wordBreak: "break-word", overflowX: "hidden",
-    }}>
-      {history.map((h, i) => (
-        <div key={i}>
-          {h.type === "cmd" && <div style={{ color: "#fff" }}><span style={{ color: accent }}>harsh@harshOS:~$</span> {h.text}</div>}
-          {h.type !== "cmd" && <div style={{ color: h.type === "system" ? "#888" : accent, whiteSpace: "pre-wrap" }}>{h.text}</div>}
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", background: "rgba(0,0,0,0.6)", fontFamily: "'JetBrains Mono', monospace" }}>
+
+      {/* ── WPM status bar ── */}
+      <div style={{
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        padding: "5px 14px", borderBottom: "1px solid rgba(255,255,255,0.06)",
+        flexShrink: 0,
+      }}>
+        <span style={{ fontSize: 10, color: "#333", letterSpacing: 2 }}>TERMINAL v2.0</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          {/* Live WPM */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{ fontSize: 9, color: "#333", letterSpacing: 1 }}>WPM</span>
+            <span style={{
+              fontSize: 13, fontWeight: 700, color: wpmColor,
+              textShadow: wpm > 0 ? `0 0 8px ${wpmColor}` : "none",
+              minWidth: 28, textAlign: "right",
+              transition: "color 0.3s",
+            }}>{wpm}</span>
+          </div>
+          {/* Peak */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{ fontSize: 9, color: "#333", letterSpacing: 1 }}>PEAK</span>
+            <span style={{ fontSize: 11, color: wpmPeak >= 80 ? "#39ff14" : "#555", minWidth: 24, textAlign: "right" }}>{wpmPeak}</span>
+          </div>
+          {/* Cmds */}
+          <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{ fontSize: 9, color: "#333", letterSpacing: 1 }}>CMDS</span>
+            <span style={{ fontSize: 11, color: "#555", minWidth: 16, textAlign: "right" }}>{totalCmds}</span>
+          </div>
         </div>
-      ))}
-      <div style={{ display: "flex", alignItems: "center", marginTop: 4 }}>
-        <span style={{ color: accent, marginRight: 8 }}>harsh@harshOS:~$</span>
-        <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={onKey} autoFocus
-          style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: 13, caretColor: accent }}
-        />
       </div>
-      <div ref={bottomRef} />
+
+      {/* ── Terminal output ── */}
+      <div
+        onClick={() => inputRef.current?.focus()}
+        style={{ flex: 1, padding: 16, color: accent, fontSize: 12, lineHeight: 1.7, overflowY: "auto", cursor: "text", wordBreak: "break-word", overflowX: "hidden" }}
+      >
+        {history.map((h, i) => (
+          <div key={i}>
+            {h.type === "cmd" && <div style={{ color: "#fff" }}><span style={{ color: accent }}>harsh@harshOS:~$</span> {h.text}</div>}
+            {h.type !== "cmd" && <div style={{ color: h.type === "system" ? "#888" : accent, whiteSpace: "pre-wrap" }}>{h.text}</div>}
+          </div>
+        ))}
+        <div style={{ display: "flex", alignItems: "center", marginTop: 4 }}>
+          <span style={{ color: accent, marginRight: 8 }}>harsh@harshOS:~$</span>
+          <input ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={onKey} autoFocus
+            style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: "#fff", fontFamily: "inherit", fontSize: 13, caretColor: accent }}
+          />
+        </div>
+        <div ref={bottomRef} />
+      </div>
     </div>
   );
 }
@@ -570,7 +659,7 @@ function TerminalApp({ hackerMode, onOpenApp }) {
 // PROJECTS APP — all 15 projects organized in 5 sections
 // ============================================================
 function ProjectsApp({ hackerMode }) {
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
   const [activeSection, setActiveSection] = useState("All");
   const [expanded, setExpanded] = useState(null);
 
@@ -1120,7 +1209,8 @@ class ScalableHostingArchitecture:
       <div style={{ display: "flex", borderBottom: "1px solid #ffffff11", background: "rgba(0,0,0,0.4)", flexShrink: 0, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
         {internships.map((int, i) => (
           <button key={int.id} onClick={() => setActiveIdx(i)} style={{
-            padding: "10px 14px", border: "none", borderBottom: activeIdx === i ? `2px solid ${int.orgColor}` : "2px solid transparent",
+            padding: "10px 14px", borderTop: "none", borderLeft: "none", borderRight: "none",
+            borderBottom: activeIdx === i ? `2px solid ${int.orgColor}` : "2px solid transparent",
             background: activeIdx === i ? "rgba(255,255,255,0.06)" : "transparent",
             color: activeIdx === i ? "#fff" : "#666", cursor: "pointer",
             fontFamily: "inherit", fontSize: 11, display: "flex", gap: 5, alignItems: "center",
@@ -2039,24 +2129,25 @@ function CertsApp({ hackerMode }) {
   const accent = hackerMode ? "#39ff14" : "#ffd700";
   const [filter, setFilter] = useState("All");
   const [hovered, setHovered] = useState(null);
-  // certImages: { [certIndex]: { dataUrl, fileName } }
-  const [certImages, setCertImages] = useState({});
-  const [lightboxCert, setLightboxCert] = useState(null); // index of cert to preview
-  const fileInputRefs = useRef({});
+  const [lightboxCert, setLightboxCert] = useState(null); // index into certs[]
 
   const cats = ["All", "Hackathons", "Internships", "Courses", "Achievements"];
+
+  // Each cert maps to a static image from the public folder
   const certs = [
-    { title: "SIH 2025 Finalist", cat: "Hackathons", icon: "⚔", color: "#ff6b35", org: "Govt. of India — Smart India Hackathon" },
-    { title: "Defence AI Intern (6mo)", cat: "Internships", icon: "🛡️", color: "#00d4ff", org: "Ministry of Defence, India · Current" },
-    { title: "Deloitte Tech Simulation", cat: "Internships", icon: "🏢", color: "#86bc25", org: "Deloitte · July 2025 · ID: x8mcYfoiFmxSZp37m" },
-    { title: "AWS APAC Solutions Arch.", cat: "Internships", icon: "☁️", color: "#ff9900", org: "Amazon Web Services · Sept 2025 · ID: 99RQY2zcfPrGGzhvt" },
-    { title: "Microsoft Hackathon", cat: "Hackathons", icon: "🪟", color: "#007acc", org: "Microsoft — Campaign Sentinel Project" },
-    { title: "Hack with India", cat: "Hackathons", icon: "🇮🇳", color: "#39ff14", org: "Hack with India — ClimateGuard Project" },
-    { title: "AI/ML Specialization", cat: "Courses", icon: "🧠", color: "#bf00ff", org: "Coursera / DeepLearning.AI" },
-    { title: "Cybersecurity Pro", cat: "Courses", icon: "🔐", color: "#39ff14", org: "CISCO Networking Academy" },
-    { title: "Web3 Developer", cat: "Courses", icon: "⬡", color: "#f7931a", org: "Alchemy University" },
-    { title: "Hackathon Winner x3", cat: "Achievements", icon: "🏆", color: "#ffd700", org: "Multiple National-Level Events" },
+    { title: "SIH 2025 Finalist",        cat: "Hackathons",    icon: "⚔",  color: "#ff6b35", org: "Govt. of India — Smart India Hackathon",                  image: "certi.jpeg"  },
+    { title: "Defence AI Intern (6mo)",   cat: "Internships",   icon: "🛡️", color: "#00d4ff", org: "Ministry of Defence, India · Current",                    image: "certi1.jpeg" },
+    { title: "Deloitte Tech Simulation",  cat: "Internships",   icon: "🏢", color: "#86bc25", org: "Deloitte · July 2025 · ID: x8mcYfoiFmxSZp37m",            image: "certi2.jpeg" },
+    { title: "AWS APAC Solutions Arch.",  cat: "Internships",   icon: "☁️", color: "#ff9900", org: "Amazon Web Services · Sept 2025 · ID: 99RQY2zcfPrGGzhvt", image: "certi3.jpeg" },
+    { title: "Microsoft Hackathon",       cat: "Hackathons",    icon: "🪟", color: "#007acc", org: "Microsoft — Campaign Sentinel Project",                    image: "certi4.jpeg" },
+    { title: "Hack with India",           cat: "Hackathons",    icon: "🇮🇳", color: "#39ff14", org: "Hack with India — ClimateGuard Project",                  image: "certi5.jpeg" },
+    { title: "AI/ML Specialization",      cat: "Courses",       icon: "🧠", color: "#bf00ff", org: "Coursera / DeepLearning.AI",                               image: "certi6.jpeg" },
+    { title: "Cybersecurity Pro",         cat: "Courses",       icon: "🔐", color: "#39ff14", org: "CISCO Networking Academy",                                 image: "certi7.jpeg" },
+    { title: "Web3 Developer",            cat: "Courses",       icon: "⬡",  color: "#f7931a", org: "Alchemy University",                                       image: "certi8.jpeg" },
+    { title: "NPTEL Certification",       cat: "Courses",       icon: "📜", color: "#00d4ff", org: "NPTEL — IIT Online Courses",                               image: "nptel.jpeg"  },
+    { title: "Hackathon Winner x3",       cat: "Achievements",  icon: "🏆", color: "#ffd700", org: "Multiple National-Level Events",                           image: "certi9.jpeg" },
   ];
+
   const filtered = filter === "All" ? certs : certs.filter(c => c.cat === filter);
 
   // Resolve the true index (position in `certs[]`) from filtered list
@@ -2065,36 +2156,28 @@ function CertsApp({ hackerMode }) {
     return certs.findIndex(c => c.title === cert.title);
   };
 
-  const handleImageUpload = (trueIdx, e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      setCertImages(prev => ({
-        ...prev,
-        [trueIdx]: { dataUrl: ev.target.result, fileName: file.name },
-      }));
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleDownload = (trueIdx, cert) => {
-    const img = certImages[trueIdx];
-    if (!img) return;
-    const a = document.createElement("a");
-    a.href = img.dataUrl;
-    a.download = img.fileName || `${cert.title.replace(/\s+/g, "_")}_certificate.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
-  const handleRemoveImage = (trueIdx) => {
-    setCertImages(prev => {
-      const next = { ...prev };
-      delete next[trueIdx];
-      return next;
-    });
+  // Download by fetching the public image as a blob
+  const handleDownload = async (cert) => {
+    try {
+      const res = await fetch(cert.image);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${cert.title.replace(/\s+/g, "_")}_certificate.jpeg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      // Fallback: direct link download
+      const a = document.createElement("a");
+      a.href = cert.image;
+      a.download = `${cert.title.replace(/\s+/g, "_")}_certificate.jpeg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
   };
 
   return (
@@ -2118,7 +2201,6 @@ function CertsApp({ hackerMode }) {
         <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
           {filtered.map((c, fi) => {
             const ti = getTrueIdx(fi);
-            const img = certImages[ti];
             return (
               <div key={ti}
                 onMouseEnter={() => setHovered(ti)} onMouseLeave={() => setHovered(null)}
@@ -2145,74 +2227,31 @@ function CertsApp({ hackerMode }) {
                 <div style={{ fontSize: 13, fontWeight: 700, color: c.color, marginTop: 8, fontFamily: "Orbitron, monospace", wordBreak: "break-word" }}>{c.title}</div>
                 <div style={{ fontSize: 11, color: "#888", marginTop: 3 }}>{c.org}</div>
 
-                {/* Certificate image preview */}
-                {img && (
-                  <div style={{ marginTop: 12, position: "relative" }}>
-                    <img
-                      src={img.dataUrl}
-                      alt={c.title}
-                      onClick={() => setLightboxCert(ti)}
-                      style={{
-                        width: "100%", maxHeight: 160, objectFit: "contain",
-                        borderRadius: 8, border: `1px solid ${c.color}44`,
-                        background: "rgba(0,0,0,0.4)", cursor: "zoom-in",
-                        display: "block",
-                      }}
-                    />
-                    {/* Remove button */}
-                    <button
-                      onClick={() => handleRemoveImage(ti)}
-                      style={{
-                        position: "absolute", top: 6, right: 6,
-                        width: 22, height: 22, borderRadius: "50%",
-                        background: "rgba(0,0,0,0.75)", border: "1px solid #ffffff33",
-                        color: "#fff", fontSize: 11, cursor: "pointer",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontFamily: "inherit",
-                      }}
-                    >✕</button>
-                    {/* File name */}
-                    <div style={{ fontSize: 9, color: "#555", marginTop: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      📎 {img.fileName}
-                    </div>
-                  </div>
-                )}
+                {/* Certificate image — always shown from public folder */}
+                <div style={{ marginTop: 12 }}>
+                  <img
+                    src={c.image}
+                    alt={c.title}
+                    onClick={() => setLightboxCert(ti)}
+                    style={{
+                      width: "100%", maxHeight: 160, objectFit: "contain",
+                      borderRadius: 8, border: `1px solid ${c.color}44`,
+                      background: "rgba(0,0,0,0.4)", cursor: "zoom-in",
+                      display: "block",
+                    }}
+                  />
+                </div>
 
                 {/* Action buttons */}
                 <div style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap" }}>
-
-                  {/* Hidden file input */}
-                  <input
-                    ref={el => { fileInputRefs.current[ti] = el; }}
-                    type="file"
-                    accept="image/*,.pdf"
-                    style={{ display: "none" }}
-                    onChange={(e) => handleImageUpload(ti, e)}
-                  />
-
-                  {/* Upload button */}
+                  {/* Download button */}
                   <button
-                    onClick={() => fileInputRefs.current[ti]?.click()}
+                    onClick={() => handleDownload(c)}
                     style={{
                       fontSize: 10, padding: "5px 12px", borderRadius: 6,
-                      background: img ? "rgba(255,255,255,0.05)" : `${c.color}18`,
-                      border: `1px solid ${img ? "#ffffff22" : c.color + "55"}`,
-                      color: img ? "#888" : c.color, cursor: "pointer", fontFamily: "inherit",
-                      display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap",
-                    }}
-                  >
-                    {img ? "↺ Replace" : "📎 Add Image"}
-                  </button>
-
-                  {/* Download button — only active when image is uploaded */}
-                  <button
-                    onClick={() => img && handleDownload(ti, c)}
-                    disabled={!img}
-                    style={{
-                      fontSize: 10, padding: "5px 12px", borderRadius: 6,
-                      background: img ? `${c.color}22` : "rgba(255,255,255,0.02)",
-                      border: `1px solid ${img ? c.color + "55" : "#ffffff0d"}`,
-                      color: img ? c.color : "#333", cursor: img ? "pointer" : "not-allowed",
+                      background: `${c.color}22`,
+                      border: `1px solid ${c.color}55`,
+                      color: c.color, cursor: "pointer",
                       fontFamily: "inherit", display: "flex", alignItems: "center", gap: 5,
                       whiteSpace: "nowrap", transition: "all 0.2s",
                     }}
@@ -2221,19 +2260,17 @@ function CertsApp({ hackerMode }) {
                   </button>
 
                   {/* Preview button */}
-                  {img && (
-                    <button
-                      onClick={() => setLightboxCert(ti)}
-                      style={{
-                        fontSize: 10, padding: "5px 12px", borderRadius: 6,
-                        background: "rgba(255,255,255,0.04)", border: "1px solid #ffffff22",
-                        color: "#aaa", cursor: "pointer", fontFamily: "inherit",
-                        display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap",
-                      }}
-                    >
-                      🔍 Preview
-                    </button>
-                  )}
+                  <button
+                    onClick={() => setLightboxCert(ti)}
+                    style={{
+                      fontSize: 10, padding: "5px 12px", borderRadius: 6,
+                      background: "rgba(255,255,255,0.04)", border: "1px solid #ffffff22",
+                      color: "#aaa", cursor: "pointer", fontFamily: "inherit",
+                      display: "flex", alignItems: "center", gap: 5, whiteSpace: "nowrap",
+                    }}
+                  >
+                    🔍 Preview
+                  </button>
                 </div>
               </div>
             );
@@ -2242,7 +2279,7 @@ function CertsApp({ hackerMode }) {
       </div>
 
       {/* Full-screen certificate lightbox */}
-      {lightboxCert !== null && certImages[lightboxCert] && (
+      {lightboxCert !== null && (
         <div
           onClick={() => setLightboxCert(null)}
           style={{
@@ -2263,7 +2300,7 @@ function CertsApp({ hackerMode }) {
           >✕</button>
 
           <img
-            src={certImages[lightboxCert].dataUrl}
+            src={certs[lightboxCert]?.image}
             alt="Certificate"
             onClick={e => e.stopPropagation()}
             style={{
@@ -2279,7 +2316,7 @@ function CertsApp({ hackerMode }) {
             </div>
             <div style={{ fontSize: 11, color: "#666", marginTop: 4 }}>{certs[lightboxCert]?.org}</div>
             <button
-              onClick={e => { e.stopPropagation(); handleDownload(lightboxCert, certs[lightboxCert]); }}
+              onClick={e => { e.stopPropagation(); handleDownload(certs[lightboxCert]); }}
               style={{
                 marginTop: 14, padding: "8px 24px", borderRadius: 8,
                 background: `${certs[lightboxCert]?.color ?? accent}22`,
@@ -2299,21 +2336,713 @@ function CertsApp({ hackerMode }) {
 }
 
 // ============================================================
+// RESUME APP
+// ============================================================
+function ResumeApp({ hackerMode }) {
+  const accent = useAccent(hackerMode);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      const res = await fetch("resume.pdf");
+      if (!res.ok) throw new Error("not found");
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "HarshKumarVermaCurrent2026.pdf";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch {
+      alert("resume.pdf not found in public folder. Please add it first.");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  return (
+    <div style={{
+      height: "100%", display: "flex", flexDirection: "column",
+      fontFamily: "'JetBrains Mono', monospace", color: "#e0e0e0",
+    }}>
+      {/* Header */}
+      <div style={{
+        padding: "14px 18px", borderBottom: "1px solid #ffffff11",
+        display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0,
+      }}>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2 }}>
+            RESUME
+          </div>
+          <div style={{ fontSize: 10, color: "#555", marginTop: 2, letterSpacing: 1 }}>
+            Harsh_Kumar_Verma_Resume.pdf
+          </div>
+        </div>
+        <button
+          onClick={handleDownload}
+          disabled={downloading}
+          style={{
+            padding: "8px 18px", borderRadius: 8, fontSize: 11, cursor: downloading ? "wait" : "pointer",
+            background: `${accent}22`, border: `1px solid ${accent}55`, color: accent,
+            fontFamily: "inherit", display: "flex", alignItems: "center", gap: 6,
+            transition: "all 0.2s", letterSpacing: 1,
+            opacity: downloading ? 0.6 : 1,
+          }}
+        >
+          {downloading ? "⏳ Downloading..." : "↓ Download PDF"}
+        </button>
+      </div>
+
+      {/* PDF preview */}
+      <div style={{ flex: 1, position: "relative", background: "#111" }}>
+        <iframe
+          src="HarshKumarVermaCurrent2026.pdf"
+          title="Resume"
+          style={{
+            width: "100%", height: "100%", border: "none",
+            display: "block",
+          }}
+        />
+        {/* Overlay hint — shown if PDF fails to load (browser can't embed) */}
+        <div style={{
+          position: "absolute", bottom: 16, right: 16,
+          background: "rgba(0,0,0,0.75)", border: `1px solid ${accent}33`,
+          borderRadius: 8, padding: "8px 14px", fontSize: 10, color: "#666",
+          pointerEvents: "none",
+        }}>
+          If preview is blank, use ↓ Download PDF above
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// GITHUB ACTIVITY APP
+// ============================================================
+function GitHubApp({ hackerMode }) {
+  const accent = useAccent(hackerMode);
+  const [contributions, setContributions] = useState(null); // array of {date, count}
+  const [stats, setStats]                 = useState(null);
+  const [loading, setLoading]             = useState(true);
+  const [error, setError]                 = useState(false);
+  const USERNAME = "Harsh-lab-art";
+
+  useEffect(() => {
+    // GitHub's contribution data isn't in the REST API — use a free proxy
+    fetch(`https://github-contributions-api.jogruber.de/v4/${USERNAME}?y=last`)
+      .then(r => r.json())
+      .then(data => {
+        const contribs = data.contributions || [];
+        const total = contribs.reduce((s, d) => s + d.count, 0);
+        const max   = Math.max(...contribs.map(d => d.count), 1);
+        const streak = (() => {
+          let best = 0, cur = 0;
+          [...contribs].reverse().forEach(d => {
+            if (d.count > 0) { cur++; best = Math.max(best, cur); }
+            else cur = 0;
+          });
+          return best;
+        })();
+        setContributions(contribs);
+        setStats({ total, max, streak, days: contribs.length });
+        setLoading(false);
+      })
+      .catch(() => { setError(true); setLoading(false); });
+  }, []);
+
+  // Color scale — 5 levels
+  const getColor = (count, max) => {
+    if (count === 0) return "rgba(255,255,255,0.05)";
+    const lvl = Math.ceil((count / max) * 4);
+    const colors = ["", `${accent}33`, `${accent}55`, `${accent}88`, accent];
+    return colors[lvl] || accent;
+  };
+
+  // Group into weeks (columns of 7 days)
+  const weeks = [];
+  if (contributions) {
+    for (let i = 0; i < contributions.length; i += 7) {
+      weeks.push(contributions.slice(i, i + 7));
+    }
+  }
+
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+  return (
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace", padding: 16, overflowY: "auto" }}>
+
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16, flexWrap: "wrap", gap: 8 }}>
+        <div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2 }}>GITHUB ACTIVITY</div>
+          <a href={`https://github.com/${USERNAME}`} target="_blank" rel="noopener noreferrer"
+            style={{ fontSize: 11, color: "#555", textDecoration: "none", letterSpacing: 1 }}>
+            github.com/{USERNAME} ↗
+          </a>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          {[
+            { label: "Contributions", value: stats?.total?.toLocaleString() ?? "—" },
+            { label: "Best Streak", value: stats?.streak ? `${stats.streak}d` : "—" },
+          ].map(s => (
+            <div key={s.label} style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${accent}22`, borderRadius: 8, padding: "8px 12px", textAlign: "center" }}>
+              <div style={{ fontSize: 16, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace" }}>{s.value}</div>
+              <div style={{ fontSize: 9, color: "#555", textTransform: "uppercase", letterSpacing: 1, marginTop: 2 }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Graph */}
+      {loading && (
+        <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: "#444", fontSize: 12, letterSpacing: 2 }}>
+          <span style={{ animation: "blink 1s infinite" }}>⏳ FETCHING ACTIVITY...</span>
+        </div>
+      )}
+
+      {error && (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 12 }}>
+          <div style={{ fontSize: 32 }}>⚠</div>
+          <div style={{ color: "#555", fontSize: 12, letterSpacing: 1, textAlign: "center" }}>Could not load GitHub data.<br />Check your connection.</div>
+          <a href={`https://github.com/${USERNAME}`} target="_blank" rel="noopener noreferrer"
+            style={{ fontSize: 11, color: accent, padding: "6px 16px", border: `1px solid ${accent}44`, borderRadius: 6, textDecoration: "none" }}>
+            View on GitHub ↗
+          </a>
+        </div>
+      )}
+
+      {contributions && !loading && (
+        <>
+          {/* Contribution heatmap */}
+          <div style={{ overflowX: "auto", paddingBottom: 8 }}>
+            {/* Month labels */}
+            <div style={{ display: "flex", marginBottom: 4, paddingLeft: 2 }}>
+              {weeks.map((week, wi) => {
+                const firstDay = week[0];
+                const d = new Date(firstDay?.date);
+                const showMonth = firstDay && d.getDate() <= 7;
+                return (
+                  <div key={wi} style={{ width: 12, flexShrink: 0, fontSize: 8, color: "#444", textAlign: "center" }}>
+                    {showMonth ? months[d.getMonth()] : ""}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Day grid */}
+            <div style={{ display: "flex", gap: 2 }}>
+              {weeks.map((week, wi) => (
+                <div key={wi} style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  {week.map((day, di) => (
+                    <div
+                      key={di}
+                      title={`${day.date}: ${day.count} contribution${day.count !== 1 ? "s" : ""}`}
+                      style={{
+                        width: 10, height: 10, borderRadius: 2,
+                        background: getColor(day.count, stats?.max ?? 1),
+                        transition: "background 0.2s",
+                        cursor: "default",
+                        boxShadow: day.count > 0 ? `0 0 4px ${getColor(day.count, stats?.max ?? 1)}` : "none",
+                      }}
+                    />
+                  ))}
+                </div>
+              ))}
+            </div>
+
+            {/* Legend */}
+            <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 8, justifyContent: "flex-end" }}>
+              <span style={{ fontSize: 9, color: "#444" }}>Less</span>
+              {[0, 0.25, 0.5, 0.75, 1].map((lvl, i) => (
+                <div key={i} style={{
+                  width: 10, height: 10, borderRadius: 2,
+                  background: lvl === 0 ? "rgba(255,255,255,0.05)" : `${accent}${Math.round(lvl * 255).toString(16).padStart(2, "0")}`,
+                }} />
+              ))}
+              <span style={{ fontSize: 9, color: "#444" }}>More</span>
+            </div>
+          </div>
+
+          {/* Recent repos */}
+          <div style={{ marginTop: 20 }}>
+            <div style={{ fontSize: 10, color: "#444", textTransform: "uppercase", letterSpacing: 3, marginBottom: 12 }}>// pinned repos</div>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              {[
+                { name: "malware-gnn-sih2025", desc: "AI-driven GNN firmware analyzer", lang: "Python", color: "#3572A5" },
+                { name: "AgroChain", desc: "Farm-to-consumer blockchain tracking", lang: "Solidity", color: "#AA6746" },
+                { name: "ZKProofSystem", desc: "Zero-knowledge proof verification", lang: "Solidity", color: "#AA6746" },
+                { name: "macos-portfolio", desc: "This portfolio — HarshOS v2.0", lang: "TypeScript", color: "#3178c6" },
+                { name: "campaign-sentinel", desc: "Microsoft hackathon AI project", lang: "Python", color: "#3572A5" },
+                { name: "stock-ai-platform", desc: "AI-powered stock analysis", lang: "TypeScript", color: "#3178c6" },
+              ].map(repo => (
+                <a key={repo.name}
+                  href={`https://github.com/${USERNAME}/${repo.name}`}
+                  target="_blank" rel="noopener noreferrer"
+                  style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${accent}22`, borderRadius: 8, padding: "10px 12px", textDecoration: "none", display: "block", transition: "all 0.2s" }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor = `${accent}55`; e.currentTarget.style.background = `${accent}08`; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor = `${accent}22`; e.currentTarget.style.background = "rgba(255,255,255,0.03)"; }}
+                >
+                  <div style={{ fontSize: 11, color: accent, fontWeight: 700, marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>◉ {repo.name}</div>
+                  <div style={{ fontSize: 10, color: "#555", lineHeight: 1.5, marginBottom: 6 }}>{repo.desc}</div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: repo.color, flexShrink: 0 }} />
+                    <span style={{ fontSize: 9, color: "#444" }}>{repo.lang}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ============================================================
+// SKILLS & TIMELINE APP
+// ============================================================
+function SkillsApp({ hackerMode }) {
+  const accent = useAccent(hackerMode);
+  const [tab, setTab] = useState("skills"); // skills | timeline
+  const [animated, setAnimated] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setAnimated(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  const skillGroups = [
+    {
+      cat: "AI / ML", color: "#bf00ff", icon: "🧠",
+      skills: [
+        { name: "PyTorch / GNN", pct: 88 },
+        { name: "Scikit-learn", pct: 82 },
+        { name: "TensorFlow", pct: 72 },
+        { name: "CUDA / GPU", pct: 65 },
+        { name: "Computer Vision", pct: 75 },
+      ],
+    },
+    {
+      cat: "Security", color: "#ff6b35", icon: "🔐",
+      skills: [
+        { name: "Firmware Analysis", pct: 80 },
+        { name: "Malware Detection", pct: 85 },
+        { name: "ZKP / Cryptography", pct: 70 },
+        { name: "Reverse Engineering", pct: 68 },
+      ],
+    },
+    {
+      cat: "Blockchain", color: "#f7931a", icon: "⬡",
+      skills: [
+        { name: "Solidity", pct: 82 },
+        { name: "Web3.js / Ethers", pct: 78 },
+        { name: "Hardhat / Remix", pct: 75 },
+        { name: "Smart Contracts", pct: 80 },
+      ],
+    },
+    {
+      cat: "Full-Stack", color: "#00d4ff", icon: "◈",
+      skills: [
+        { name: "React / Next.js", pct: 88 },
+        { name: "TypeScript", pct: 82 },
+        { name: "FastAPI / Flask", pct: 80 },
+        { name: "Node.js", pct: 75 },
+        { name: "TailwindCSS", pct: 85 },
+      ],
+    },
+    {
+      cat: "DevOps", color: "#39ff14", icon: "⚙",
+      skills: [
+        { name: "Docker", pct: 72 },
+        { name: "Git / GitHub", pct: 90 },
+        { name: "Linux", pct: 80 },
+        { name: "CI/CD", pct: 65 },
+      ],
+    },
+  ];
+
+  const timeline = [
+    {
+      year: "2021",
+      title: "Started B.Tech CSE",
+      org: "LNCT Group of Colleges, Bhopal",
+      desc: "Began computer science journey. Discovered passion for AI and security systems.",
+      icon: "🎓", color: "#00d4ff",
+    },
+    {
+      year: "2022",
+      title: "First Hackathon",
+      org: "College Level",
+      desc: "Built first full-stack project. Caught the hackathon bug — never looked back.",
+      icon: "⚡", color: "#ffd700",
+    },
+    {
+      year: "2023",
+      title: "Blockchain Development",
+      org: "Self-taught · Alchemy University",
+      desc: "Built AgroChain, ZKProofSystem, and PeerLedWorkshops. Earned Web3 Developer cert.",
+      icon: "⬡", color: "#f7931a",
+    },
+    {
+      year: "2024",
+      title: "Ministry of Defence Internship",
+      org: "Government of India · Delhi",
+      desc: "AI Security Systems Intern. Built GNN-based malware detection for national-level firmware analysis.",
+      icon: "🛡️", color: "#ff6b35",
+    },
+    {
+      year: "2025 Jan",
+      title: "SIH 2025 — Finalist",
+      org: "Smart India Hackathon · Govt. of India",
+      desc: "AI-Driven GNN Firmware Analyzer. Multi-arch malware detection using PyTorch + Radare2. National finalist.",
+      icon: "⚔", color: "#ff6b35",
+    },
+    {
+      year: "2025 Jul",
+      title: "Deloitte & AWS Simulations",
+      org: "Forage Platform",
+      desc: "Software Engineering simulation at Deloitte (30% bug reduction) and AWS APAC Solutions Architecture.",
+      icon: "☁️", color: "#ff9900",
+    },
+    {
+      year: "Now",
+      title: "Building & Shipping",
+      org: "Open to Opportunities",
+      desc: "Actively building AI security tools, contributing to open source, and seeking full-time roles in AI/Security.",
+      icon: "🚀", color: "#39ff14",
+    },
+  ];
+
+  return (
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace" }}>
+
+      {/* Tab bar */}
+      <div style={{ display: "flex", borderBottom: "1px solid #ffffff11", flexShrink: 0 }}>
+        {[{ id: "skills", label: "⬡ Skills" }, { id: "timeline", label: "◎ Timeline" }].map(t => (
+          <button key={t.id} onClick={() => setTab(t.id)} style={{
+            flex: 1, padding: "10px 0", fontSize: 11, letterSpacing: 2,
+            background: tab === t.id ? `${accent}11` : "transparent",
+            borderTop: "none", borderLeft: "none", borderRight: "none",
+            borderBottom: tab === t.id ? `2px solid ${accent}` : "2px solid transparent",
+            color: tab === t.id ? accent : "#555",
+            cursor: "pointer", fontFamily: "inherit",
+            textTransform: "uppercase", transition: "all 0.2s",
+          }}>{t.label}</button>
+        ))}
+      </div>
+
+      <div style={{ flex: 1, overflowY: "auto", padding: 16 }}>
+
+        {/* ── SKILLS TAB ── */}
+        {tab === "skills" && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {skillGroups.map(group => (
+              <div key={group.cat}>
+                {/* Group header */}
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                  <span style={{ fontSize: 16 }}>{group.icon}</span>
+                  <span style={{ fontSize: 11, color: group.color, textTransform: "uppercase", letterSpacing: 3, fontWeight: 700 }}>{group.cat}</span>
+                </div>
+                {/* Skill bars */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {group.skills.map(skill => (
+                    <div key={skill.name}>
+                      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+                        <span style={{ fontSize: 11, color: "#aaa" }}>{skill.name}</span>
+                        <span style={{ fontSize: 11, color: group.color, fontWeight: 700 }}>{skill.pct}%</span>
+                      </div>
+                      {/* Track */}
+                      <div style={{ height: 6, background: "rgba(255,255,255,0.06)", borderRadius: 3, overflow: "hidden" }}>
+                        {/* Fill — animates in */}
+                        <div style={{
+                          height: "100%", borderRadius: 3,
+                          background: `linear-gradient(90deg, ${group.color}99, ${group.color})`,
+                          boxShadow: `0 0 8px ${group.color}66`,
+                          width: animated ? `${skill.pct}%` : "0%",
+                          transition: "width 1s cubic-bezier(0.4,0,0.2,1)",
+                        }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Overall stats row */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginTop: 4 }}>
+              {[
+                { label: "Languages", value: "8+", color: "#bf00ff" },
+                { label: "Frameworks", value: "12+", color: "#00d4ff" },
+                { label: "Projects", value: "15+", color: "#39ff14" },
+              ].map(s => (
+                <div key={s.label} style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${s.color}33`, borderRadius: 10, padding: "12px 8px", textAlign: "center" }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: s.color, fontFamily: "Orbitron, monospace" }}>{s.value}</div>
+                  <div style={{ fontSize: 9, color: "#555", textTransform: "uppercase", letterSpacing: 2, marginTop: 4 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── TIMELINE TAB ── */}
+        {tab === "timeline" && (
+          <div style={{ position: "relative", paddingLeft: 28 }}>
+            {/* Vertical line */}
+            <div style={{ position: "absolute", left: 10, top: 8, bottom: 8, width: 2, background: "linear-gradient(180deg, transparent, #ffffff22 10%, #ffffff22 90%, transparent)" }} />
+
+            {timeline.map((item, i) => (
+              <div key={i} style={{ position: "relative", marginBottom: 28, opacity: animated ? 1 : 0, transform: animated ? "translateX(0)" : "translateX(-10px)", transition: `all 0.5s ease ${i * 0.08}s` }}>
+                {/* Dot */}
+                <div style={{
+                  position: "absolute", left: -24, top: 4,
+                  width: 14, height: 14, borderRadius: "50%",
+                  background: item.color, boxShadow: `0 0 10px ${item.color}`,
+                  border: "2px solid rgba(0,0,0,0.8)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 7,
+                }} />
+
+                {/* Card */}
+                <div style={{ background: "rgba(255,255,255,0.03)", border: `1px solid ${item.color}33`, borderRadius: 10, padding: "12px 14px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8, flexWrap: "wrap" }}>
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        <span style={{ fontSize: 16 }}>{item.icon}</span>
+                        <span style={{ fontSize: 13, fontWeight: 700, color: item.color, fontFamily: "Orbitron, monospace" }}>{item.title}</span>
+                      </div>
+                      <div style={{ fontSize: 10, color: "#666", marginTop: 3, letterSpacing: 1 }}>{item.org}</div>
+                    </div>
+                    <span style={{ fontSize: 9, padding: "3px 8px", borderRadius: 8, background: `${item.color}18`, color: item.color, border: `1px solid ${item.color}33`, flexShrink: 0 }}>{item.year}</span>
+                  </div>
+                  <p style={{ fontSize: 11, color: "#888", marginTop: 8, lineHeight: 1.7 }}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+// ============================================================
+// AI CHAT APP
+// ============================================================
+const CHAT_KB = [
+  // Identity
+  { keys: ["who are you","what are you","introduce","yourself","harshOS","harsh os"], answer: "I'm HarshOS AI — an intelligent assistant built into Harsh Kumar Verma's portfolio. Ask me anything about Harsh: his skills, projects, internships, or how to contact him." },
+  { keys: ["name","harsh","full name"], answer: "His name is Harsh Kumar Verma. B.Tech CSE student, AI Security Engineer, SIH 2025 Finalist, and Ministry of Defence intern." },
+  { keys: ["location","where","city","bhopal","india"], answer: "Harsh is based in Bhopal, Madhya Pradesh, India." },
+  { keys: ["college","university","degree","btech","b.tech","lnct","education"], answer: "He's pursuing B.Tech in Computer Science & Engineering with a CPI of 8.11. Currently in his final year." },
+  // Skills
+  { keys: ["skill","tech","stack","language","framework","know","expertise"], answer: "Harsh's core stack:\n• AI/ML — PyTorch, GNN, TensorFlow, Scikit-learn, CUDA\n• Security — Firmware Analysis, Malware Detection, ZKP\n• Blockchain — Solidity, Ethereum, Web3.js, Hardhat\n• Full-Stack — React, Next.js, TypeScript, FastAPI, Node.js\n• DevOps — Docker, Git, Linux" },
+  { keys: ["python"], answer: "Yes, Python is his primary language — used for AI/ML, FastAPI backends, firmware analysis scripts, and automation." },
+  { keys: ["react","frontend","typescript","javascript"], answer: "Strong frontend skills — React, Next.js, TypeScript, TailwindCSS. This portfolio itself is built with React + Vite + TypeScript." },
+  { keys: ["solidity","blockchain","web3","ethereum","smart contract"], answer: "He's built 3 smart contract projects: AgroChain (supply chain), ZKProofSystem (zero-knowledge proofs), and PeerLedWorkshops (reward system). Certified Web3 Developer from Alchemy University." },
+  { keys: ["ai","ml","machine learning","deep learning","neural","gnn","pytorch"], answer: "AI/ML is his core focus. He built an AI-driven GNN Firmware Analyzer for SIH 2025 using PyTorch, GIN+GraphSAGE, and Radare2 for binary analysis. Also worked on malware detection at the Ministry of Defence." },
+  // Projects
+  { keys: ["project","built","made","created","work"], answer: "15+ projects across:\n• Blockchain: AgroChain, ZKProofSystem, PeerLedWorkshops\n• AI/Security: GNN Malware Analyzer (SIH), Campaign Sentinel, Phishing Detector\n• Web: Stock AI Platform, CodeConnect, Hospital Dashboard, This Portfolio\n• Python: Volvex 3D Gestures, Dr Strange Gestures\nOpen the Projects app for full details." },
+  { keys: ["agrochain","agro","farm","supply chain"], answer: "AgroChain is a blockchain-based farm-to-consumer supply chain tracker. Each product gets a unique QR code; every stage is recorded immutably on Ethereum using Solidity smart contracts." },
+  { keys: ["zkproof","zk","zero knowledge","zkp"], answer: "ZKProofSystem is a privacy-preserving verification system on Ethereum. Users submit and verify proofs without revealing sensitive data, using keccak256 hashing and role-based verifier access." },
+  { keys: ["sih","smart india hackathon","gnn","firmware","malware","finalist"], answer: "SIH 2025 Finalist! He built an AI-Driven GNN Firmware Analyzer — converts binaries to Control Flow Graphs, then uses GIN+GraphSAGE neural networks to detect malware. Supports x86/ARM/MIPS architectures. Built with PyTorch, Radare2, Capstone, FastAPI, and CUDA." },
+  { keys: ["portfolio","this site","website","macos"], answer: "This portfolio is HarshOS v2.0 — a macOS-style interactive OS built with React, TypeScript, and Vite. Features include a terminal, gallery, certificates, GitHub activity, and this AI chat." },
+  // Internships
+  { keys: ["internship","intern","work experience","job","defence","ministry","mod","government"], answer: "He has 3 internships:\n1. Ministry of Defence, India (Current, 6 months) — AI Security Systems, GNN malware analysis, firmware security\n2. Deloitte Technology (July 2025) — Software Engineering simulation, 30% bug reduction\n3. AWS APAC Solutions Architecture (Sept 2025) — Deployed Elastic Beanstalk, 40% faster, 10K+ users" },
+  { keys: ["deloitte"], answer: "Deloitte Technology Job Simulation (July 2025) via Forage. Debugged software modules and reduced bugs by 30%. Certificate ID: x8mcYfoiFmxSZp37m." },
+  { keys: ["aws","amazon","cloud","elastic beanstalk"], answer: "AWS APAC Solutions Architecture Simulation (Sept 2025). Deployed a scalable Elastic Beanstalk architecture — 40% faster performance, supporting 10K+ users with zero downtime. Certificate ID: 99RQY2zcfPrGGzhvt." },
+  // Achievements
+  { keys: ["achievement","award","certificate","cert","hackathon","winner"], answer: "Key achievements:\n✦ SIH 2025 Finalist (National Level)\n✦ Ministry of Defence Internship\n✦ Microsoft Hackathon Participant\n✦ Hack with India Participant\n✦ AI/ML Specialization — Coursera\n✦ Cybersecurity Pro — CISCO\n✦ Web3 Developer — Alchemy\n✦ Hackathon Winner ×3" },
+  { keys: ["microsoft","campaign sentinel"], answer: "Participated in Microsoft Hackathon with Campaign Sentinel — an AI-powered campaign monitoring and misinformation detection system." },
+  // Contact
+  { keys: ["contact","email","reach","hire","connect","linkedin","github"], answer: "You can reach Harsh at:\n✉ harsh9760verma@gmail.com\n◉ github.com/Harsh-lab-art\n⬡ linkedin.com/in/harsh-kumar-verma-850636336\n📍 Bhopal, MP, India\n\nOr use the Contact app to send a direct message!" },
+  { keys: ["hire","job","opportunity","open to","available","recruit"], answer: "Yes! Harsh is actively open to full-time roles and internships in AI Security, ML Engineering, and Full-Stack development. Reach out at harsh9760verma@gmail.com or via LinkedIn." },
+  // Fun
+  { keys: ["hobby","interest","fun","free time","outside"], answer: "Outside of coding, Harsh enjoys competitive programming, exploring new AI research papers, and building side projects. He's also into hackathons — 5+ participated, 3 wins." },
+  { keys: ["cpi","gpa","grade","marks","score"], answer: "CPI: 8.11 — consistently strong academic performance alongside heavy project and internship work." },
+  { keys: ["hello","hi","hey","greet","good morning","good evening"], answer: "Hello, Agent! 👋 I'm HarshOS AI. Ask me anything about Harsh — his skills, projects, internships, or how to get in touch." },
+  { keys: ["thank","thanks","appreciate"], answer: "You're welcome! Is there anything else you'd like to know about Harsh?" },
+  { keys: ["bye","goodbye","exit","close"], answer: "Goodbye, Agent. Feel free to come back anytime. You can also explore the other apps in HarshOS!" },
+];
+
+function getAIResponse(input) {
+  const q = input.toLowerCase().trim();
+  // Find best matching entry
+  let best = null, bestScore = 0;
+  for (const entry of CHAT_KB) {
+    for (const key of entry.keys) {
+      if (q.includes(key)) {
+        const score = key.length; // longer match = more specific
+        if (score > bestScore) { bestScore = score; best = entry; }
+      }
+    }
+  }
+  if (best) return best.answer;
+  // Fallback
+  return `I don't have specific info on "${input}" yet. Try asking about:\n• Skills & tech stack\n• Projects (AgroChain, SIH, etc.)\n• Internships (MoD, Deloitte, AWS)\n• Achievements & certificates\n• How to contact Harsh`;
+}
+
+function ChatApp({ hackerMode }) {
+  const accent = useAccent(hackerMode);
+  const [messages, setMessages] = useState([
+    { role: "ai", text: "Hello, Agent! I'm HarshOS AI — ask me anything about Harsh Kumar Verma.\n\nTry: \"What are his skills?\", \"Tell me about SIH\", \"How to contact him?\"" }
+  ]);
+  const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
+  const bottomRef = useRef(null);
+  const inputRef = useRef(null);
+
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages, typing]);
+
+  const send = () => {
+    const q = input.trim();
+    if (!q) return;
+    setInput("");
+    setMessages(m => [...m, { role: "user", text: q }]);
+    setTyping(true);
+    // Simulate thinking delay
+    setTimeout(() => {
+      const answer = getAIResponse(q);
+      setTyping(false);
+      setMessages(m => [...m, { role: "ai", text: answer }]);
+    }, 600 + Math.random() * 400);
+  };
+
+  const onKey = (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } };
+
+  const suggestions = ["What are his skills?", "Tell me about SIH 2025", "Internship details", "How to contact?", "Show projects"];
+
+  return (
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace" }}>
+
+      {/* Header */}
+      <div style={{ padding: "10px 16px", borderBottom: "1px solid #ffffff0a", flexShrink: 0, display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ width: 32, height: 32, borderRadius: "50%", background: `${accent}22`, border: `1px solid ${accent}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>⟁</div>
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: accent, letterSpacing: 2 }}>HARSHOS AI</div>
+          <div style={{ fontSize: 9, color: "#39ff14", letterSpacing: 1 }}>● ONLINE</div>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "12px 14px", display: "flex", flexDirection: "column", gap: 10 }}>
+        {messages.map((msg, i) => (
+          <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
+            <div style={{
+              maxWidth: "82%", padding: "10px 14px", borderRadius: msg.role === "user" ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
+              background: msg.role === "user" ? `${accent}22` : "rgba(255,255,255,0.04)",
+              border: `1px solid ${msg.role === "user" ? accent + "44" : "#ffffff0f"}`,
+              fontSize: 12, color: msg.role === "user" ? accent : "#ccc",
+              lineHeight: 1.7, whiteSpace: "pre-wrap", wordBreak: "break-word",
+            }}>
+              {msg.text}
+            </div>
+          </div>
+        ))}
+
+        {/* Typing indicator */}
+        {typing && (
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <div style={{ padding: "10px 16px", borderRadius: "14px 14px 14px 4px", background: "rgba(255,255,255,0.04)", border: "1px solid #ffffff0f", display: "flex", gap: 5, alignItems: "center" }}>
+              {[0, 1, 2].map(i => (
+                <div key={i} style={{ width: 6, height: 6, borderRadius: "50%", background: accent, opacity: 0.6, animation: `blink 1s ease-in-out ${i * 0.2}s infinite` }} />
+              ))}
+            </div>
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Suggestions — only show at start */}
+      {messages.length <= 1 && (
+        <div style={{ padding: "0 14px 8px", display: "flex", gap: 6, flexWrap: "wrap", flexShrink: 0 }}>
+          {suggestions.map(s => (
+            <button key={s} onClick={() => { setInput(s); setTimeout(() => inputRef.current?.focus(), 50); }}
+              style={{ fontSize: 10, padding: "4px 10px", borderRadius: 12, background: `${accent}11`, border: `1px solid ${accent}33`, color: accent, cursor: "pointer", fontFamily: "inherit", letterSpacing: 0.5, whiteSpace: "nowrap" }}>
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Input */}
+      <div style={{ padding: "10px 14px", borderTop: "1px solid #ffffff0a", display: "flex", gap: 8, flexShrink: 0 }}>
+        <input
+          ref={inputRef}
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          onKeyDown={onKey}
+          placeholder="Ask me anything about Harsh..."
+          style={{ flex: 1, background: "rgba(255,255,255,0.05)", border: `1px solid ${accent}33`, borderRadius: 10, padding: "8px 12px", color: "#fff", fontFamily: "inherit", fontSize: 12, outline: "none" }}
+        />
+        <button onClick={send} disabled={!input.trim() || typing}
+          style={{ padding: "8px 14px", borderRadius: 10, background: input.trim() && !typing ? `${accent}22` : "rgba(255,255,255,0.03)", border: `1px solid ${input.trim() && !typing ? accent + "55" : "#ffffff11"}`, color: input.trim() && !typing ? accent : "#444", cursor: input.trim() && !typing ? "pointer" : "not-allowed", fontFamily: "inherit", fontSize: 13, transition: "all 0.2s" }}>
+          ↑
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
 // CONTACT APP
 // ============================================================
-function ContactApp({ hackerMode }) {
-  const accent = hackerMode ? "#39ff14" : "#00d4ff";
-  const [email, setEmail] = useState("");
-  const [msg, setMsg] = useState("");
-  const [sent, setSent] = useState(false);
+// Web3Forms — no signup needed.
+// Just go to https://web3forms.com, enter harsh9760verma@gmail.com,
+// click "Create Access Key", paste the key below. That's it.
+const WEB3FORMS_KEY = "c34478f6-fbbc-4195-9657-dd6559c56a0f";
 
-  const handleTransmit = () => {
-    if (!email && !msg) return;
-    const subject = encodeURIComponent("Portfolio Contact — Harsh Kumar Verma");
-    const body = encodeURIComponent(`From: ${email}\n\n${msg}`);
-    window.location.href = `mailto:harsh9760verma@gmail.com?subject=${subject}&body=${body}`;
-    setSent(true);
-    setTimeout(() => setSent(false), 3000);
+function ContactApp({ hackerMode }) {
+  const accent = useAccent(hackerMode);
+  const [name, setName]   = useState("");
+  const [email, setEmail] = useState("");
+  const [msg, setMsg]     = useState("");
+  const [emailTouched, setEmailTouched] = useState(false);
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [copied, setCopied] = useState(null); // label of the copied item
+
+  const copyToClipboard = (label, value) => {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(label);
+      setTimeout(() => setCopied(null), 2000);
+    });
+  };
+
+  const isValidEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  const emailOk = isValidEmail(email);
+  const canSend = name.trim() && emailOk && msg.trim() && status === "idle";
+
+  const handleTransmit = async () => {
+    if (!canSend) return;
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          name: name.trim(),
+          email: email.trim(),
+          message: msg.trim(),
+          subject: `Portfolio Contact from ${name.trim()}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus("sent");
+        setName(""); setEmail(""); setMsg(""); setEmailTouched(false);
+        setTimeout(() => setStatus("idle"), 4000);
+      } else {
+        throw new Error(data.message);
+      }
+    } catch {
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 4000);
+    }
   };
 
   const contacts = [
@@ -2326,63 +3055,125 @@ function ContactApp({ hackerMode }) {
     { label: "Location", value: "Bhopal, MP, India", icon: "📍", color: "#ff6b35", href: "https://maps.google.com/?q=Bhopal,MP,India", target: "_blank" },
   ];
 
+  const fieldStyle = (invalid = false) => ({
+    width: "100%", background: "rgba(255,255,255,0.05)",
+    border: `1px solid ${invalid ? "#ff4444" : accent + "33"}`,
+    borderRadius: 6, padding: "8px 12px", color: "#fff",
+    fontFamily: "inherit", fontSize: 12, outline: "none", boxSizing: "border-box",
+  });
+
   return (
     <div style={{ padding: 16, fontFamily: "'JetBrains Mono', monospace", color: "#e0e0e0", overflowY: "auto", height: "100%" }}>
       <div style={{ fontSize: 16, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2, marginBottom: 16 }}>ESTABLISH CONTACT</div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 8, marginBottom: 16 }}>
         {contacts.map(c => (
-          <a key={c.label} href={c.href} target={c.target} rel="noopener noreferrer"
-            style={{
-              background: "rgba(255,255,255,0.04)", border: `1px solid ${c.color}33`,
-              borderRadius: 10, padding: "14px 16px", display: "block", textDecoration: "none",
-              transition: "all 0.2s",
+          <div
+            key={c.label}
+            onClick={() => copyToClipboard(c.label, c.value)}
+            style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${copied === c.label ? c.color + "99" : c.color + "33"}`, borderRadius: 10, padding: "14px 16px", display: "block", textDecoration: "none", transition: "all 0.2s", cursor: "pointer", position: "relative", overflow: "hidden",
+              boxShadow: copied === c.label ? `0 0 18px ${c.color}33` : "none",
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = `${c.color}88`; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 4px 20px ${c.color}22`; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = `${c.color}33`; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = copied === c.label ? `${c.color}99` : `${c.color}33`; e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = copied === c.label ? `0 0 18px ${c.color}33` : "none"; }}
           >
-            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              <span style={{ fontSize: 20, flexShrink: 0 }}>{c.icon}</span>
-              <div>
-                <div style={{ fontSize: 10, color: "#555", textTransform: "uppercase", letterSpacing: 2 }}>{c.label}</div>
-                <div style={{ fontSize: 12, color: c.color, marginTop: 2 }}>{c.value}</div>
+            <div style={{ display: "flex", gap: 12, alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+                <span style={{ fontSize: 20, flexShrink: 0 }}>{c.icon}</span>
+                <div>
+                  <div style={{ fontSize: 10, color: "#555", textTransform: "uppercase", letterSpacing: 2 }}>{c.label}</div>
+                  <div style={{ fontSize: 12, color: c.color, marginTop: 2 }}>{c.value}</div>
+                </div>
               </div>
+              {/* Copy badge */}
+              <span style={{
+                fontSize: 9, padding: "2px 8px", borderRadius: 8, letterSpacing: 1,
+                background: copied === c.label ? `${c.color}22` : "rgba(255,255,255,0.04)",
+                border: `1px solid ${copied === c.label ? c.color + "66" : "#ffffff11"}`,
+                color: copied === c.label ? c.color : "#444",
+                transition: "all 0.3s", flexShrink: 0,
+              }}>
+                {copied === c.label ? "✓ COPIED" : "COPY"}
+              </span>
             </div>
-          </a>
+          </div>
         ))}
       </div>
 
       <div style={{ background: "rgba(0,0,0,0.4)", borderRadius: 10, padding: 20, border: `1px solid ${accent}22` }}>
         <div style={{ fontSize: 11, color: accent, marginBottom: 14, textTransform: "uppercase", letterSpacing: 2 }}>// send_message</div>
+
+        {/* Name */}
         <input
-          placeholder="Your email address..."
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-          style={{ width: "100%", background: "rgba(255,255,255,0.05)", border: `1px solid ${accent}33`, borderRadius: 6, padding: "8px 12px", color: "#fff", fontFamily: "inherit", fontSize: 12, marginBottom: 10, outline: "none", boxSizing: "border-box" }}
+          placeholder="Your name..."
+          value={name}
+          onChange={e => setName(e.target.value)}
+          style={{ ...fieldStyle(), marginBottom: 10 }}
         />
+
+        {/* Email with live validation */}
+        <div style={{ marginBottom: 10 }}>
+          <div style={{ position: "relative" }}>
+            <input
+              placeholder="Your email address..."
+              value={email}
+              onChange={e => { setEmail(e.target.value); setEmailTouched(true); }}
+              style={{ ...fieldStyle(emailTouched && !emailOk), paddingRight: email ? 32 : 12 }}
+            />
+            {email && (
+              <span style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", fontSize: 13, color: emailOk ? "#39ff14" : "#ff4444" }}>
+                {emailOk ? "✓" : "✗"}
+              </span>
+            )}
+          </div>
+          {emailTouched && !emailOk && email && (
+            <div style={{ fontSize: 10, color: "#ff4444", marginTop: 4, letterSpacing: 1 }}>⚠ Invalid email address</div>
+          )}
+        </div>
+
+        {/* Message */}
         <textarea
           rows={3}
           placeholder="Your message..."
           value={msg}
           onChange={e => setMsg(e.target.value)}
-          style={{ width: "100%", background: "rgba(255,255,255,0.05)", border: `1px solid ${accent}33`, borderRadius: 6, padding: "8px 12px", color: "#fff", fontFamily: "inherit", fontSize: 12, resize: "none", outline: "none", boxSizing: "border-box" }}
+          style={{ ...fieldStyle(), resize: "none", marginBottom: 0 }}
         />
+
+        {/* Status feedback */}
+        {status === "sent" && (
+          <div style={{ marginTop: 10, fontSize: 11, color: "#39ff14", letterSpacing: 1 }}>✓ Message transmitted successfully!</div>
+        )}
+        {status === "error" && (
+          <div style={{ marginTop: 10, fontSize: 11, color: "#ff4444", letterSpacing: 1 }}>✗ Transmission failed. Try again.</div>
+        )}
+
         <button
           onClick={handleTransmit}
-          style={{ marginTop: 10, padding: "8px 24px", background: sent ? "#39ff1422" : `${accent}22`, border: `1px solid ${sent ? "#39ff14" : accent}`, borderRadius: 6, color: sent ? "#39ff14" : accent, fontFamily: "inherit", fontSize: 12, cursor: "pointer", letterSpacing: 2, transition: "all 0.3s" }}
+          disabled={!canSend}
+          style={{
+            marginTop: 12, padding: "8px 24px",
+            background: status === "sent" ? "#39ff1422" : `${accent}22`,
+            border: `1px solid ${status === "sent" ? "#39ff14" : accent}`,
+            borderRadius: 6,
+            color: status === "sent" ? "#39ff14" : accent,
+            fontFamily: "inherit", fontSize: 12, letterSpacing: 2,
+            cursor: canSend ? "pointer" : "not-allowed",
+            opacity: canSend ? 1 : 0.45,
+            transition: "all 0.3s",
+          }}
         >
-          {sent ? "✓ TRANSMITTED" : "TRANSMIT →"}
+          {status === "sending" ? "⏳ TRANSMITTING..." : status === "sent" ? "✓ TRANSMITTED" : "TRANSMIT →"}
         </button>
       </div>
     </div>
   );
 }
-
 // ============================================================
 // SETTINGS APP
 // ============================================================
 function SettingsApp({ hackerMode, setHackerMode, accentColor, setAccentColor }) {
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
   return (
     <div style={{ padding: 16, fontFamily: "'JetBrains Mono', monospace", color: "#e0e0e0", overflowY: "auto", height: "100%" }}>
       <div style={{ fontSize: 15, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2, marginBottom: 18 }}>SYSTEM SETTINGS</div>
@@ -2418,11 +3209,193 @@ function SettingsApp({ hackerMode, setHackerMode, accentColor, setAccentColor })
 }
 
 // ============================================================
+// MUSIC APP
+// ============================================================
+const TRACKS = [
+  { title: "Call you mine",   artist: "HarshOS Radio", src: "callYouMine.mp3" },
+  { title: "Daddy Home",     artist: "HarshOS Radio", src: "daddy.mp3" },
+  { title: "Heaven and Back",      artist: "HarshOS Radio", src: "heaven.mp3" },
+  { title: "Bloodshot",  artist: "HarshOS Radio", src: "idaf.mp3" },
+];
+
+function MusicApp({ hackerMode }) {
+  const accent = useAccent(hackerMode);
+  const [trackIdx, setTrackIdx] = useState(0);
+  const [playing, setPlaying]   = useState(false);
+  const [volume, setVolume]     = useState(0.4);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [error, setError]       = useState(false);
+  const audioRef = useRef(null);
+  const track = TRACKS[trackIdx];
+
+  useEffect(() => { if (audioRef.current) audioRef.current.volume = volume; }, [volume]);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      if (audioRef.current && !audioRef.current.paused) {
+        setProgress(audioRef.current.currentTime);
+        setDuration(audioRef.current.duration || 0);
+      }
+    }, 500);
+    return () => clearInterval(t);
+  }, []);
+
+  const togglePlay = () => {
+    if (!audioRef.current) return;
+    setError(false);
+    if (playing) { audioRef.current.pause(); setPlaying(false); }
+    else { audioRef.current.play().then(() => setPlaying(true)).catch(() => setError(true)); }
+  };
+
+  const changeTrack = (next) => {
+    setTrackIdx(next); setProgress(0); setError(false);
+    setTimeout(() => {
+      if (playing && audioRef.current) {
+        audioRef.current.load();
+        audioRef.current.play().catch(() => setError(true));
+      }
+    }, 50);
+  };
+
+  const seek = (e) => {
+    if (!audioRef.current || !duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audioRef.current.currentTime = pct * duration;
+  };
+
+  const fmt = (s) => isNaN(s) ? "0:00" : `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;
+
+  return (
+    <div style={{ height: "100%", display: "flex", flexDirection: "column", fontFamily: "'JetBrains Mono', monospace", background: "rgba(0,0,0,0.3)" }}>
+      <style>{`
+        @keyframes barBounce0{from{height:20%}to{height:100%}}
+        @keyframes barBounce1{from{height:40%}to{height:70%}}
+        @keyframes barBounce2{from{height:15%}to{height:90%}}
+        @keyframes barBounce3{from{height:50%}to{height:60%}}
+        @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+      `}</style>
+      <audio ref={audioRef} src={track.src} onEnded={() => changeTrack((trackIdx + 1) % TRACKS.length)} preload="none" />
+
+      {/* Now playing hero */}
+      <div style={{ padding: "32px 24px 24px", display: "flex", flexDirection: "column", alignItems: "center", borderBottom: "1px solid #ffffff08" }}>
+        {/* Vinyl disc */}
+        <div style={{
+          width: 120, height: 120, borderRadius: "50%",
+          background: `conic-gradient(${accent}22, #111, ${accent}44, #111, ${accent}22)`,
+          border: `3px solid ${accent}44`,
+          boxShadow: playing ? `0 0 40px ${accent}44, 0 0 80px ${accent}22` : `0 0 20px rgba(0,0,0,0.5)`,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          animation: playing ? "spin 4s linear infinite" : "none",
+          transition: "box-shadow 0.5s",
+          marginBottom: 20, flexShrink: 0,
+        }}>
+          <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#0a0a14", border: `2px solid ${accent}66`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14 }}>♫</div>
+        </div>
+
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontSize: 16, fontWeight: 700, color: accent, fontFamily: "Orbitron, monospace", letterSpacing: 2 }}>{track.title}</div>
+          <div style={{ fontSize: 11, color: "#555", marginTop: 4, letterSpacing: 2 }}>{track.artist}</div>
+          {error && <div style={{ fontSize: 10, color: "#ff4444", marginTop: 6 }}>⚠ Stream unavailable — try next track</div>}
+        </div>
+
+        {/* Equalizer bars */}
+        <div style={{ display: "flex", alignItems: "flex-end", gap: 3, height: 24, marginTop: 16 }}>
+          {[1, 0.6, 0.9, 0.4, 0.75, 0.5, 0.85, 0.3].map((h, i) => (
+            <div key={i} style={{
+              width: 4, borderRadius: 2,
+              background: playing ? accent : "#333",
+              height: playing ? `${h * 100}%` : "20%",
+              animation: playing ? `barBounce${i % 4} ${0.6 + i * 0.1}s ease-in-out ${i * 0.1}s infinite alternate` : "none",
+              transition: "height 0.3s, background 0.3s",
+            }} />
+          ))}
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div style={{ padding: "16px 24px 0" }}>
+        <div onClick={seek} style={{ height: 5, background: "rgba(255,255,255,0.08)", borderRadius: 3, cursor: "pointer", marginBottom: 6 }}>
+          <div style={{ height: "100%", borderRadius: 3, background: `linear-gradient(90deg, ${accent}99, ${accent})`, width: duration ? `${(progress/duration)*100}%` : "0%", transition: "width 0.5s linear", boxShadow: `0 0 8px ${accent}` }} />
+        </div>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "#444" }}>
+          <span>{fmt(progress)}</span><span>{fmt(duration)}</span>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 20, padding: "20px 24px" }}>
+        {[
+          { icon: "⏮", fn: () => changeTrack((trackIdx - 1 + TRACKS.length) % TRACKS.length), primary: false },
+          { icon: playing ? "⏸" : "▶", fn: togglePlay, primary: true },
+          { icon: "⏭", fn: () => changeTrack((trackIdx + 1) % TRACKS.length), primary: false },
+        ].map((btn, i) => (
+          <button key={i} onClick={btn.fn} style={{
+            background: btn.primary ? `${accent}22` : "rgba(255,255,255,0.05)",
+            border: `1px solid ${btn.primary ? accent + "55" : "#ffffff18"}`,
+            borderRadius: "50%", width: btn.primary ? 56 : 40, height: btn.primary ? 56 : 40,
+            color: btn.primary ? accent : "#888", fontSize: btn.primary ? 22 : 16,
+            cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+            boxShadow: btn.primary && playing ? `0 0 20px ${accent}55` : "none",
+            transition: "all 0.2s", fontFamily: "inherit",
+          }}>{btn.icon}</button>
+        ))}
+      </div>
+
+      {/* Volume */}
+      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 24px 20px" }}>
+        <span style={{ fontSize: 14, color: "#444" }}>🔈</span>
+        <input type="range" min={0} max={1} step={0.05} value={volume}
+          onChange={e => setVolume(parseFloat(e.target.value))}
+          style={{ flex: 1, accentColor: accent, cursor: "pointer" }}
+        />
+        <span style={{ fontSize: 14, color: "#444" }}>🔊</span>
+      </div>
+
+      {/* Track list */}
+      <div style={{ flex: 1, overflowY: "auto", borderTop: "1px solid #ffffff08", padding: "12px 16px" }}>
+        <div style={{ fontSize: 10, color: "#333", textTransform: "uppercase", letterSpacing: 3, marginBottom: 10 }}>// playlist</div>
+        {TRACKS.map((t, i) => (
+          <div key={i} onClick={() => changeTrack(i)}
+            style={{
+              display: "flex", alignItems: "center", gap: 12, padding: "10px 12px",
+              borderRadius: 10, cursor: "pointer", marginBottom: 4,
+              background: i === trackIdx ? `${accent}11` : "rgba(255,255,255,0.02)",
+              border: `1px solid ${i === trackIdx ? accent + "33" : "transparent"}`,
+              transition: "all 0.2s",
+            }}
+            onMouseEnter={e => { if (i !== trackIdx) e.currentTarget.style.background = "rgba(255,255,255,0.05)"; }}
+            onMouseLeave={e => { if (i !== trackIdx) e.currentTarget.style.background = "rgba(255,255,255,0.02)"; }}
+          >
+            {/* Play indicator */}
+            <div style={{ width: 28, height: 28, borderRadius: "50%", background: i === trackIdx ? `${accent}22` : "rgba(255,255,255,0.04)", border: `1px solid ${i === trackIdx ? accent + "44" : "#ffffff11"}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, color: i === trackIdx ? accent : "#555", flexShrink: 0 }}>
+              {i === trackIdx && playing ? "▶" : (i + 1)}
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, color: i === trackIdx ? accent : "#aaa", fontWeight: i === trackIdx ? 700 : 400, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{t.title}</div>
+              <div style={{ fontSize: 10, color: "#444", marginTop: 2 }}>{t.artist}</div>
+            </div>
+            {i === trackIdx && playing && (
+              <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 14 }}>
+                {[1, 0.6, 0.9, 0.4].map((h, j) => (
+                  <div key={j} style={{ width: 3, borderRadius: 1, background: accent, height: `${h * 100}%`, animation: `barBounce${j} 0.8s ease-in-out ${j * 0.15}s infinite alternate` }} />
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
 // icon
 // ============================================================
 function Dock({ onOpen, hackerMode, minimized }) {
   const [hovered, setHovered] = useState(null);
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
 
   return (
     <div style={{
@@ -2484,8 +3457,17 @@ function Dock({ onOpen, hackerMode, minimized }) {
 // ============================================================
 function MenuBar({ activeWindow, hackerMode, setHackerMode, onOpen }) {
   const [time, setTime] = useState(new Date());
+  const [visitors, setVisitors] = useState(null);
   useEffect(() => { const t = setInterval(() => setTime(new Date()), 1000); return () => clearInterval(t); }, []);
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
+
+  // Visitor counter — increments on every new page load
+  useEffect(() => {
+    fetch("https://hits.sh/harshkumarverma-portfolio.json")
+      .then(r => r.json())
+      .then(d => setVisitors(d.count ?? d.value ?? null))
+      .catch(() => setVisitors(null));
+  }, []);
 
   return (
     <div style={{
@@ -2511,6 +3493,18 @@ function MenuBar({ activeWindow, hackerMode, setHackerMode, onOpen }) {
         {activeWindow || "HarshOS"}
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+        {/* Visitor counter */}
+        {visitors !== null && (
+          <span title="Total visitors" style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 10, color: "#888", letterSpacing: 1 }}>
+            <span style={{
+              width: 6, height: 6, borderRadius: "50%", background: "#39ff14",
+              boxShadow: "0 0 6px #39ff14",
+              animation: "blink 2s infinite",
+              display: "inline-block", flexShrink: 0,
+            }} />
+            {visitors.toLocaleString()} agents
+          </span>
+        )}
         <span style={{ fontSize: 12 }}>📶</span>
         <span style={{ fontSize: 12 }}>🔋</span>
         <span onClick={() => setHackerMode(h => !h)} style={{
@@ -2530,31 +3524,176 @@ function MenuBar({ activeWindow, hackerMode, setHackerMode, onOpen }) {
 // ============================================================
 // SPOTLIGHT
 // ============================================================
-function Spotlight({ onClose, onOpen }) {
+const SPOTLIGHT_INDEX = [
+  // Apps
+  ...Object.values(APPS).map(a => ({ type: "App", label: a.title, sub: `Open ${a.title}`, icon: a.icon, color: a.color, action: "open", id: a.id })),
+  // Skills
+  ...["PyTorch","TensorFlow","GNN","Scikit-learn","CUDA","FastAPI","React","TypeScript","Next.js","Solidity","Ethereum","Web3.js","Hardhat","Docker","Linux","ZKP","Firmware Analysis","Malware Detection","Flask","Node.js"].map(s => ({
+    type: "Skill", label: s, sub: "Tech skill", icon: "⬡", color: "#bf00ff", action: "open", id: "about",
+  })),
+  // Projects
+  ...["AgroChain","ZKProofSystem","PeerLedWorkshops","Campaign Sentinel","ClimateGuard","Phishing Detector","HealthKey","Volvex 3D","Stock AI Platform","CodeConnect","Hospital Dashboard","Timetable Generator"].map(p => ({
+    type: "Project", label: p, sub: "View projects", icon: "◈", color: "#bf00ff", action: "open", id: "projects",
+  })),
+  // Certificates
+  ...["SIH 2025 Finalist","Defence AI Intern","Deloitte Tech Simulation","AWS APAC Solutions","Microsoft Hackathon","Hack with India","AI/ML Specialization","Cybersecurity Pro","Web3 Developer","NPTEL"].map(c => ({
+    type: "Certificate", label: c, sub: "View certificates", icon: "✦", color: "#ffd700", action: "open", id: "certs",
+  })),
+  // Quick actions
+  { type: "Action", label: "Toggle Hacker Mode", sub: "Switch to matrix theme", icon: "☠️", color: "#39ff14", action: "hacker", id: null },
+  { type: "Action", label: "Open Terminal", sub: "Run commands", icon: "⌨", color: "#39ff14", action: "open", id: "terminal" },
+  { type: "Action", label: "View Resume", sub: "Download PDF", icon: "📄", color: "#a8ff78", action: "open", id: "resume" },
+  { type: "Action", label: "Contact Me", sub: "Send a message", icon: "✉", color: "#00d4ff", action: "open", id: "contact" },
+];
+
+const TYPE_ORDER = ["App", "Action", "Project", "Certificate", "Skill"];
+
+function Spotlight({ onClose, onOpen, setHackerMode }) {
   const [q, setQ] = useState("");
-  const results = Object.values(APPS).filter(a =>
-    a.title.toLowerCase().includes(q.toLowerCase()) || a.id.includes(q.toLowerCase())
-  );
+  const [sel, setSel] = useState(0);
+  const inputRef = useRef(null);
+
+  const results = q.trim().length === 0 ? [] : SPOTLIGHT_INDEX.filter(item =>
+    item.label.toLowerCase().includes(q.toLowerCase()) ||
+    item.type.toLowerCase().includes(q.toLowerCase()) ||
+    item.sub.toLowerCase().includes(q.toLowerCase())
+  ).slice(0, 12);
+
+  // Group by type in order
+  const grouped = TYPE_ORDER.reduce((acc, type) => {
+    const items = results.filter(r => r.type === type);
+    if (items.length) acc.push({ type, items });
+    return acc;
+  }, []);
+
+  // Flat list for keyboard nav
+  const flat = results;
+
+  useEffect(() => { setSel(0); }, [q]);
+
+  const execute = (item) => {
+    if (!item) return;
+    if (item.action === "hacker") { setHackerMode(h => !h); }
+    else if (item.action === "open") { onOpen(item.id); }
+    onClose();
+  };
+
+  const onKey = (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); setSel(s => Math.min(s + 1, flat.length - 1)); }
+    if (e.key === "ArrowUp")   { e.preventDefault(); setSel(s => Math.max(s - 1, 0)); }
+    if (e.key === "Enter")     { execute(flat[sel]); }
+    if (e.key === "Escape")    { onClose(); }
+  };
+
+  // Highlight matching text
+  const highlight = (text) => {
+    if (!q.trim()) return text;
+    const idx = text.toLowerCase().indexOf(q.toLowerCase());
+    if (idx === -1) return text;
+    return (
+      <>
+        {text.slice(0, idx)}
+        <span style={{ color: "#fff", background: "rgba(0,255,247,0.2)", borderRadius: 2, padding: "0 1px" }}>{text.slice(idx, idx + q.length)}</span>
+        {text.slice(idx + q.length)}
+      </>
+    );
+  };
+
+  let flatIdx = 0;
 
   return (
-    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: "15vh" }}>
-      <div onClick={e => e.stopPropagation()} style={{ width: 500, background: "rgba(20,20,30,0.95)", backdropFilter: "blur(40px)", borderRadius: 16, border: "1px solid rgba(0,255,247,0.3)", overflow: "hidden", boxShadow: "0 20px 80px rgba(0,0,0,0.8)" }}>
-        <div style={{ display: "flex", alignItems: "center", padding: "14px 18px", borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-          <span style={{ marginRight: 10, fontSize: 16 }}>🔍</span>
-          <input autoFocus value={q} onChange={e => setQ(e.target.value)} placeholder="Spotlight Search..."
-            style={{ flex: 1, background: "none", border: "none", outline: "none", color: "#fff", fontSize: 16, fontFamily: "'JetBrains Mono', monospace" }}
+    <div onClick={onClose} style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 1000, display: "flex", alignItems: "flex-start", justifyContent: "center", paddingTop: "12vh", backdropFilter: "blur(4px)" }}>
+      <div onClick={e => e.stopPropagation()} style={{ width: 560, background: "rgba(12,12,22,0.97)", backdropFilter: "blur(40px)", borderRadius: 18, border: "1px solid rgba(0,255,247,0.25)", overflow: "hidden", boxShadow: "0 30px 100px rgba(0,0,0,0.9), 0 0 0 1px rgba(0,255,247,0.08)" }}>
+
+        {/* Search input */}
+        <div style={{ display: "flex", alignItems: "center", padding: "16px 20px", borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+          <span style={{ marginRight: 12, fontSize: 18, opacity: 0.5 }}>⌕</span>
+          <input
+            ref={inputRef}
+            autoFocus
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            onKeyDown={onKey}
+            placeholder="Search apps, skills, projects, certificates..."
+            style={{ flex: 1, background: "none", border: "none", outline: "none", color: "#fff", fontSize: 15, fontFamily: "'JetBrains Mono', monospace", letterSpacing: 0.5 }}
           />
+          {q && (
+            <span onClick={() => { setQ(""); inputRef.current?.focus(); }} style={{ fontSize: 12, color: "#444", cursor: "pointer", padding: "2px 6px", borderRadius: 4, background: "rgba(255,255,255,0.06)" }}>✕</span>
+          )}
         </div>
-        {q && results.map(r => (
-          <div key={r.id} onClick={() => { onOpen(r.id); onClose(); }}
-            style={{ display: "flex", gap: 12, alignItems: "center", padding: "10px 18px", cursor: "pointer", color: "#ccc", fontSize: 13, fontFamily: "monospace" }}
-            onMouseEnter={e => e.currentTarget.style.background = "rgba(0,255,247,0.1)"}
-            onMouseLeave={e => e.currentTarget.style.background = "transparent"}
-          >
-            <span style={{ color: r.color, fontSize: 18 }}>{r.icon}</span>
-            <span>{r.title}</span>
+
+        {/* Results */}
+        {q.trim() && (
+          <div style={{ maxHeight: 420, overflowY: "auto" }}>
+            {results.length === 0 ? (
+              <div style={{ padding: "24px 20px", color: "#444", fontSize: 13, fontFamily: "'JetBrains Mono', monospace", textAlign: "center" }}>
+                No results for "{q}"
+              </div>
+            ) : (
+              grouped.map(({ type, items }) => (
+                <div key={type}>
+                  {/* Category header */}
+                  <div style={{ padding: "8px 20px 4px", fontSize: 9, color: "#444", textTransform: "uppercase", letterSpacing: 3, fontFamily: "'JetBrains Mono', monospace" }}>
+                    {type}s
+                  </div>
+                  {items.map(item => {
+                    const idx = flatIdx++;
+                    const isSelected = sel === idx;
+                    return (
+                      <div
+                        key={item.label + idx}
+                        onClick={() => execute(item)}
+                        onMouseEnter={() => setSel(idx)}
+                        style={{
+                          display: "flex", gap: 14, alignItems: "center",
+                          padding: "10px 20px", cursor: "pointer",
+                          background: isSelected ? `${item.color}14` : "transparent",
+                          borderLeft: isSelected ? `2px solid ${item.color}` : "2px solid transparent",
+                          transition: "all 0.1s",
+                        }}
+                      >
+                        <span style={{ fontSize: 20, flexShrink: 0, width: 28, textAlign: "center" }}>{item.icon}</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, color: isSelected ? "#fff" : "#ccc", fontFamily: "'JetBrains Mono', monospace" }}>
+                            {highlight(item.label)}
+                          </div>
+                          <div style={{ fontSize: 10, color: "#555", marginTop: 2, letterSpacing: 1 }}>{item.sub}</div>
+                        </div>
+                        <span style={{ fontSize: 9, color: item.color, padding: "2px 7px", borderRadius: 6, background: `${item.color}18`, border: `1px solid ${item.color}33`, flexShrink: 0 }}>
+                          {type}
+                        </span>
+                        {isSelected && (
+                          <span style={{ fontSize: 10, color: "#444", flexShrink: 0 }}>↵</span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ))
+            )}
           </div>
-        ))}
+        )}
+
+        {/* Empty state hint */}
+        {!q.trim() && (
+          <div style={{ padding: "20px 20px", fontFamily: "'JetBrains Mono', monospace" }}>
+            <div style={{ fontSize: 10, color: "#333", textTransform: "uppercase", letterSpacing: 3, marginBottom: 12 }}>Quick access</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {["about","projects","certs","gallery","terminal","contact"].map(id => {
+                const a = APPS[id];
+                return (
+                  <div key={id} onClick={() => { onOpen(id); onClose(); }} style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 12px", borderRadius: 8, background: "rgba(255,255,255,0.04)", border: `1px solid ${a.color}33`, cursor: "pointer", fontSize: 11, color: a.color, fontFamily: "inherit" }}
+                    onMouseEnter={e => e.currentTarget.style.background = `${a.color}14`}
+                    onMouseLeave={e => e.currentTarget.style.background = "rgba(255,255,255,0.04)"}
+                  >
+                    <span>{a.icon}</span> {a.title}
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: 16, fontSize: 10, color: "#2a2a2a", letterSpacing: 1 }}>↑↓ navigate · ↵ open · ESC close</div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -2639,6 +3778,11 @@ function HarshOS() {
       case "blockchain": return <BlockchainApp {...props} />;
       case "gallery": return <GalleryApp {...props} />;
       case "certs": return <CertsApp {...props} />;
+      case "resume": return <ResumeApp {...props} />;
+      case "skills": return <SkillsApp {...props} />;
+      case "github": return <GitHubApp {...props} />;
+      case "music":  return <MusicApp {...props} />;
+      case "chat":   return <ChatApp {...props} />;
       case "contact": return <ContactApp {...props} />;
       case "settings": return <SettingsApp hackerMode={hackerMode} setHackerMode={setHackerMode} accentColor={accentColor} setAccentColor={setAccentColor} />;
       default: return <div style={{ padding: 20, color: "#fff" }}>App not found</div>;
@@ -2646,6 +3790,7 @@ function HarshOS() {
   };
 
   return (
+    <AccentContext.Provider value={accentColor}>
     <div
       style={{ width: "100vw", height: "100vh", overflow: "hidden", cursor: "default", userSelect: "none", background: "#000" }}
       onContextMenu={e => { e.preventDefault(); setCtxMenu({ x: e.clientX, y: e.clientY }); }}
@@ -2677,7 +3822,7 @@ function HarshOS() {
       ))}
 
       <Dock onOpen={openApp} hackerMode={hackerMode} minimized={minimized} />
-      {spotlight && <Spotlight onClose={() => setSpotlight(false)} onOpen={openApp} />}
+      {spotlight && <Spotlight onClose={() => setSpotlight(false)} onOpen={openApp} setHackerMode={setHackerMode} />}
       {ctxMenu && (
         <ContextMenu pos={ctxMenu} onClose={() => setCtxMenu(null)} onOpen={openApp}
           hackerMode={hackerMode} setHackerMode={setHackerMode}
@@ -2691,9 +3836,9 @@ function HarshOS() {
         </div>
       )}
     </div>
+    </AccentContext.Provider>
   );
 }
-
 
 // ============================================================
 // ██╗██████╗ ██╗  ██╗ ██████╗ ███╗   ██╗███████╗ ██████╗ ███████╗
@@ -2723,7 +3868,7 @@ function useIsMobile() {
 }
 
 // iPhone Status Bar
-function IPhoneStatusBar({ hackerMode, time }) {
+function IPhoneStatusBar({ hackerMode, time, visitors }) {
   const accent = hackerMode ? "#39ff14" : "#fff";
   return (
     <div style={{
@@ -2735,12 +3880,19 @@ function IPhoneStatusBar({ hackerMode, time }) {
       <span style={{ fontSize: 15, fontWeight: 700, color: accent, fontFamily: "'JetBrains Mono', monospace", letterSpacing: 1 }}>
         {time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
       </span>
-      {/* Dynamic island pill */}
+      {/* Dynamic island pill — shows visitor count inside */}
       <div style={{
         width: 110, height: 30, borderRadius: 20,
-        background: "#000",
-        boxShadow: "0 0 0 2px #111",
-      }} />
+        background: "#000", boxShadow: "0 0 0 2px #111",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
+      }}>
+        {visitors !== null && (
+          <>
+            <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#39ff14", boxShadow: "0 0 5px #39ff14", display: "inline-block", animation: "blink 2s infinite" }} />
+            <span style={{ fontSize: 9, color: "#39ff14", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 0.5 }}>{visitors?.toLocaleString()}</span>
+          </>
+        )}
+      </div>
       {/* Right icons */}
       <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
         <span style={{ fontSize: 13, color: accent }}>📶</span>
@@ -2752,7 +3904,7 @@ function IPhoneStatusBar({ hackerMode, time }) {
 }
 
 // Full-screen app sheet (slides up like iOS)
-function IPhoneAppSheet({ appId, hackerMode, onClose, openApp, setHackerMode }) {
+function IPhoneAppSheet({ appId, hackerMode, onClose, openApp, setHackerMode, accentColor, setAccentColor }) {
   const app = APPS[appId];
   const accent = app?.color || "#00fff7";
   const [visible, setVisible] = useState(false);
@@ -2779,8 +3931,13 @@ function IPhoneAppSheet({ appId, hackerMode, onClose, openApp, setHackerMode }) 
       case "blockchain": return <BlockchainApp {...props} />;
       case "gallery":    return <GalleryApp {...props} />;
       case "certs":      return <CertsApp {...props} />;
+      case "resume":     return <ResumeApp {...props} />;
+      case "skills":     return <SkillsApp {...props} />;
+      case "github":     return <GitHubApp {...props} />;
+      case "music":      return <MusicApp {...props} />;
+      case "chat":       return <ChatApp {...props} />;
       case "contact":    return <ContactApp {...props} />;
-      case "settings":   return <SettingsApp hackerMode={hackerMode} setHackerMode={setHackerMode} accentColor={accent} setAccentColor={() => {}} />;
+      case "settings":   return <SettingsApp hackerMode={hackerMode} setHackerMode={setHackerMode} accentColor={accentColor} setAccentColor={setAccentColor} />;
       default: return <div style={{ padding: 24, color: "#fff" }}>App not found</div>;
     }
   };
@@ -2910,7 +4067,7 @@ function IPhoneLockScreen({ onUnlock, hackerMode }) {
   const [dragY, setDragY] = useState(0);
   const [unlocking, setUnlocking] = useState(false);
   const [time, setTime] = useState(new Date());
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);
@@ -3031,12 +4188,23 @@ function IPhoneOS() {
   const [booting, setBooting]       = useState(true);
   const [activeApp, setActiveApp]   = useState(null);
   const [hackerMode, setHackerMode] = useState(false);
+  const [accentColor, setAccentColor] = useState("#00fff7");
+  const [visitors, setVisitors]     = useState(null);
   const [time, setTime]             = useState(new Date());
   const [page, setPage]             = useState(0);
+  const [mobileSpotlight, setMobileSpotlight] = useState(false);
+
+  useEffect(() => {
+    // Re-use the same counter key — no double increment, just read
+    fetch("https://hits.sh/harshkumarverma-portfolio.json")
+      .then(r => r.json())
+      .then(d => setVisitors(d.count ?? d.value ?? null))
+      .catch(() => setVisitors(null));
+  }, []);
   // touch swipe state (on the page container, NOT a blocking overlay)
   const swipeStartX = useRef(null);
 
-  const accent = hackerMode ? "#39ff14" : "#00fff7";
+  const accent = useAccent(hackerMode);
 
   useEffect(() => {
     const t = setInterval(() => setTime(new Date()), 1000);
@@ -3046,8 +4214,8 @@ function IPhoneOS() {
   // ── ALL 10 apps spread across 3 pages ─────────────────────
   // Page 0: 8 apps (2 rows × 4 cols)
   // Page 1: remaining apps
-  const page0 = ["about", "terminal", "projects", "vscode", "sih", "blockchain", "gallery", "certs"];
-  const page1 = ["contact", "settings"];
+  const page0 = ["about", "terminal", "projects", "vscode", "sih", "blockchain", "resume", "certs"];
+  const page1 = ["skills", "github", "music", "chat", "gallery", "contact", "settings"];
 
   const allPages = [page0, page1];
   const totalPages = allPages.length;
@@ -3075,6 +4243,7 @@ function IPhoneOS() {
   }
 
   return (
+    <AccentContext.Provider value={accentColor}>
     <div style={{
       width: "100vw", height: "100dvh",
       background: "#050510",
@@ -3098,7 +4267,7 @@ function IPhoneOS() {
 
       {/* Status bar */}
       <div style={{ position: "relative", zIndex: 10, flexShrink: 0 }}>
-        <IPhoneStatusBar hackerMode={hackerMode} time={time} />
+        <IPhoneStatusBar hackerMode={hackerMode} time={time} visitors={visitors} />
       </div>
 
       {/* Home screen — touch events HERE, not on a blocking overlay */}
@@ -3107,9 +4276,27 @@ function IPhoneOS() {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
+        {/* iOS-style search bar */}
+        <div style={{ padding: "10px 16px 0", position: "relative", zIndex: 20 }}>
+          <div
+            onClick={() => setMobileSpotlight(true)}
+            onTouchEnd={e => { e.preventDefault(); setMobileSpotlight(true); }}
+            style={{
+              display: "flex", alignItems: "center", gap: 8,
+              background: "rgba(255,255,255,0.1)", backdropFilter: "blur(20px)",
+              borderRadius: 12, padding: "8px 14px",
+              border: "1px solid rgba(255,255,255,0.12)",
+              cursor: "pointer", WebkitTapHighlightColor: "transparent",
+            }}
+          >
+            <span style={{ fontSize: 14, opacity: 0.5 }}>⌕</span>
+            <span style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", fontFamily: "'JetBrains Mono', monospace", letterSpacing: 0.5 }}>Search apps, skills, projects...</span>
+          </div>
+        </div>
+
         {/* Page indicator dots */}
         <div style={{
-          position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)",
+          position: "absolute", top: 58, left: "50%", transform: "translateX(-50%)",
           display: "flex", gap: 5, zIndex: 20, pointerEvents: "none",
         }}>
           {allPages.map((_, i) => (
@@ -3134,7 +4321,7 @@ function IPhoneOS() {
               width: "100vw",
               flexShrink: 0,
               height: "100%",
-              padding: "28px 4px 12px",
+              padding: "48px 4px 12px",
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: "14px 0",
@@ -3195,7 +4382,20 @@ function IPhoneOS() {
           onClose={closeApp}
           openApp={openApp}
           setHackerMode={setHackerMode}
+          accentColor={accentColor}
+          setAccentColor={setAccentColor}
         />
+      )}
+
+      {/* Mobile Spotlight */}
+      {mobileSpotlight && (
+        <div style={{ position: "fixed", inset: 0, zIndex: 850 }}>
+          <Spotlight
+            onClose={() => setMobileSpotlight(false)}
+            onOpen={(id) => { setMobileSpotlight(false); openApp(id); }}
+            setHackerMode={setHackerMode}
+          />
+        </div>
       )}
 
       {/* Lock screen */}
@@ -3203,6 +4403,7 @@ function IPhoneOS() {
         <IPhoneLockScreen onUnlock={() => setLocked(false)} hackerMode={hackerMode} />
       )}
     </div>
+    </AccentContext.Provider>
   );
 }
 
